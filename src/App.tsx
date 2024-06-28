@@ -1,14 +1,13 @@
 import "./App.css";
-import { mockData } from "./MockData";
-import { CardList, Footer, Header } from "./components";
+import { UsersList, Footer, Header } from "./components";
 
 function App() {
   return (
-    <section className="container">
+    <div className="container">
       <Header />
-      <CardList cards={mockData} />
+      <UsersList />
       <Footer />
-    </section>
+    </div>
   );
 }
 

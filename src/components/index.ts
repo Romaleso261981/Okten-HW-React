@@ -1,3 +1,4 @@
 export * from "./Header/Header";
 export * from "./Footer/Footer";
-export * from "./CardList/CardList";
+export * from "./UsersList/UsersList";
+export * from "./UserPosts/UserPosts";
