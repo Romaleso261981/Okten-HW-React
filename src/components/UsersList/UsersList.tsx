@@ -10,12 +10,13 @@ import {
 import { getAllUsers } from "../../hooks/getUsers";
 import { UserPosts } from "..";
 import { UserComponent } from "../UserComponent/UserComponent";
+import myCustomUseState from "../../hooks/useMyCustomState";
 
 export const UsersList = () => {
   const [users, setUsers] = useState<User[] | []>([]);
   const [userPosts, setUserPosts] = useState<Post[] | null>(null);
   const [skip, setSkip] = useState<number>(0);
-  const [totalUser, setTotalUser] = useState<number>(0);
+  const [totalUser, setTotalUser] = myCustomUseState<number>(0);
 
   const limit = 10;
 
@@ -25,6 +26,7 @@ export const UsersList = () => {
     );
     setUsers([...users]);
     setTotalUser(total);
+    console.log(totalUser);
   };
 
   useEffect(() => {
@@ -37,11 +39,11 @@ export const UsersList = () => {
   };
 
   const nextUsers = async () => {
-    setSkip((prev) => prev + 5);
+    setSkip((prev) => prev + 10);
   };
 
   const prevUsers = async () => {
-    setSkip((prev) => prev - 5);
+    setSkip((prev) => prev - 10);
   };
 
   if (!users) {
@@ -52,7 +54,11 @@ export const UsersList = () => {
     <section className={s.container}>
       <ul className={s.wrapper}>
         {users.map((user) => (
-          <UserComponent user={user} getUserPosts={getUserPosts} />
+          <UserComponent
+            key={user.id}
+            user={user}
+            getUserPosts={getUserPosts}
+          />
         ))}
       </ul>
       <div className={s.buttonWrapper}>
