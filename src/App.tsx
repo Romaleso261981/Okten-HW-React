@@ -1,5 +1,6 @@
 import "./App.css";
-import { UsersList, Footer, Header } from "./components";
+import { Footer, Header } from "./components";
+import UsersList from "./components/UsersClass/UsersClass";
 
 function App() {
   return (

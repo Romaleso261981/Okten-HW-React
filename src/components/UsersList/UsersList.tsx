@@ -13,9 +13,9 @@ import { UserComponent } from "../UserComponent/UserComponent";
 import myCustomUseState from "../../hooks/useMyCustomState";
 
 export const UsersList = () => {
-  const [users, setUsers] = useState<User[] | []>([]);
+  const [users, setUsers] = myCustomUseState<User[] | []>([]);
   const [userPosts, setUserPosts] = useState<Post[] | null>(null);
-  const [skip, setSkip] = useState<number>(0);
+  const [skip, setSkip] = myCustomUseState<number>(0);
   const [totalUser, setTotalUser] = myCustomUseState<number>(0);
 
   const limit = 10;
