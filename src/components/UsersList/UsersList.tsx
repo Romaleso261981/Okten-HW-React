@@ -10,13 +10,14 @@ import {
 import { getAllUsers } from "../../hooks/getUsers";
 import { UserPosts } from "..";
 import { UserComponent } from "../UserComponent/UserComponent";
-import myCustomUseState from "../../hooks/useMyCustomState";
+import { useStateWithEffect } from "../../hooks/useMyCustomState";
 
 export const UsersList = () => {
-  const [users, setUsers] = myCustomUseState<User[] | []>([]);
+  const [users, setUsers] = useState<User[] | []>([]);
   const [userPosts, setUserPosts] = useState<Post[] | null>(null);
-  const [skip, setSkip] = myCustomUseState<number>(0);
-  const [totalUser, setTotalUser] = myCustomUseState<number>(0);
+  const [skip, setSkip] = useStateWithEffect<number>(0);
+  // const [totalUser, setTotalUser] = useState<number>(0);
+  const [totalUser, setTotalUser] = useStateWithEffect<number>(0);
 
   const limit = 10;
 

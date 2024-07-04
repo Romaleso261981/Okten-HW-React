@@ -2,7 +2,7 @@ import { useReducer } from "react";
 
 type SetStateAction<S> = S | ((prevState: S) => S);
 
-const useCustomState = <T>(
+export const useCustomWithReducerState = <T>(
   initialState: T | (() => T)
 ): [T, (setStateAction: SetStateAction<T>) => void] => {
   const stateReducer = (state: T, action: SetStateAction<T>): T => {
@@ -25,4 +25,18 @@ const useCustomState = <T>(
   return [state, setState];
 };
 
-export default useCustomState;
+type StateSetter<T> = (prevT: T | ((prevState: T) => T)) => void;
+
+export const useStateWithEffect = <T>(initialValue: T): [T, StateSetter<T>] => {
+  let state: T = initialValue;
+
+  function setState(newState: T | ((prevState: T) => T)) {
+    typeof newState === "function"
+      ? (state = (newState as (prevState: T) => T)(state))
+      : newState;
+
+    return [state, setState];
+  }
+
+  return [state, setState];
+};

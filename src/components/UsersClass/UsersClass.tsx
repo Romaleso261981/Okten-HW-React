@@ -8,7 +8,7 @@ import {
 } from "../../shared/types/Types";
 import { getAllUsers } from "../../hooks/getUsers";
 import { UserPosts } from "..";
-import { UserComponent } from "../UserComponent/UserComponent";
+import UserComponent from "../UserComponentClass/UserComponentClass";
 
 interface UsersListProps {}
 
