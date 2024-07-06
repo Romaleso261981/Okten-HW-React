@@ -4,13 +4,13 @@ export const Header = () => {
   return (
     <header className={s.header}>
       <nav className={s.nav}>
-        <a href="/" className={s.link}>
+        <a href="/admin" className={s.link}>
           admin
         </a>
         <a href="/" className={s.link}>
           home
         </a>
-        <a href="/" className={s.link}>
+        <a href="/login" className={s.link}>
           Auth
         </a>
       </nav>
