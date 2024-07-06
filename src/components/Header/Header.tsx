@@ -10,7 +10,7 @@ export const Header = () => {
         <a href="/" className={s.link}>
           home
         </a>
-        <a href="/login" className={s.link}>
+        <a href="/auth" className={s.link}>
           Auth
         </a>
       </nav>

@@ -13,7 +13,7 @@ export default function RootRouter() {
   return (
     <Suspense fallback={<Spiner />}>
       <Routes>
-        <Route path={RoutersPaths.LOGIN} element={<AuthPage />} />
+        <Route path={RoutersPaths.AUTH} element={<AuthPage />} />
         <Route element={<Layout />}>
           <Route path={RoutersPaths.MAIN} element={<MainPage />} />
           <Route path={RoutersPaths.ADMIN} element={<Admin />} />

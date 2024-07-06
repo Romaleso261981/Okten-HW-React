@@ -1,26 +1,24 @@
 import { FC } from "react";
-import { useForm } from "react-hook-form";
-import { ToastContainer, Flip } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
-
-import s from "./LoginForm.module.css";
 import { AuthSteps } from "../../shared/types/enums";
+import { ToastContainer, Flip } from "react-toastify";
+import { useForm } from "react-hook-form";
 
-type LoginFormProps = {
+import s from "./RegisterForm.module.css";
+
+type RegisterFormProps = {
   setCurrentStep: React.Dispatch<React.SetStateAction<AuthSteps>>;
 };
 
-export const LoginForm: FC<LoginFormProps> = ({
-  setCurrentStep
-}): JSX.Element => {
+const RegisterForm: FC<RegisterFormProps> = ({ setCurrentStep }) => {
   const { register, handleSubmit, reset } = useForm();
 
-  const login = (data: any) => {
+  const registerForm = (data: any) => {
     let formData = {
       email: data.email,
-      password: data.password
+      password: data.password,
+      name: data.name
     };
-    fetch("https://jsonplaceholder.typicode.com/users", {
+    fetch("https://jsonplaceholder.typicode.com/posts", {
       method: "POST",
       body: JSON.stringify(formData),
       headers: {
@@ -38,13 +36,25 @@ export const LoginForm: FC<LoginFormProps> = ({
         <div className={s.wrapper}>
           <div className={s.cardBody}>
             <h3 className="card-title text-center text-secondary mt-3">
-              Login Form
+              Register Form
             </h3>
             <form
               className={s.form}
               autoComplete="off"
-              onSubmit={handleSubmit(login)}
+              onSubmit={handleSubmit(registerForm)}
             >
+              <div className={s.inputWrapper}>
+                <label className="form-label">Name</label>
+                <input
+                  type="text"
+                  {...register("name", { required: "Name is required!" })}
+                />
+                {/* {errors.email && (
+                      <p className="text-danger" style={{ fontSize: 14 }}>
+                        {errors.email.message}
+                      </p>
+                    )} */}
+              </div>
               <div className={s.inputWrapper}>
                 <label className="form-label">Email</label>
                 <input
@@ -72,16 +82,16 @@ export const LoginForm: FC<LoginFormProps> = ({
                     )} */}
               </div>
               <div className={s.controllWrapper}>
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
                 <p>
-                  don't have an account?{" "}
+                  Have an Account?{" "}
                   <button
                     onClick={() => {
-                      setCurrentStep(AuthSteps.Register);
+                      setCurrentStep(AuthSteps.Login);
                     }}
                     style={{ textDecoration: "none" }}
                   >
-                    Sign Up
+                    Login
                   </button>
                 </p>
               </div>
@@ -104,3 +114,5 @@ export const LoginForm: FC<LoginFormProps> = ({
     </>
   );
 };
+
+export default RegisterForm;

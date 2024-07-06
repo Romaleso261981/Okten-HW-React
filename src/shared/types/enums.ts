@@ -2,6 +2,10 @@ export enum RoutersPaths {
   MAIN = "/",
   ADMIN = "/admin",
   AUTH = "/auth",
-  NOFOUND = "*",
-  LOGIN = "login"
+  NOFOUND = "*"
+}
+
+export enum AuthSteps {
+  Register = "register",
+  Login = "login"
 }
