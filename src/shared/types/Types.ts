@@ -97,7 +97,7 @@ export type PostsResponse = Respons & {
   posts: Post[];
 };
 
-export type TodosType = {
+export type TodoType = {
   userId: number;
   id: number;
   title: string;
