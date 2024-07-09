@@ -79,7 +79,7 @@ export const LoginForm: FC<LoginFormProps> = ({
                     onClick={() => {
                       setCurrentStep(AuthSteps.Register);
                     }}
-                    style={{ textDecoration: "none" }}
+                    className={s.buttonLink}
                   >
                     Sign Up
                   </button>

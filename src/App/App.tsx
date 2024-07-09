@@ -1,14 +1,14 @@
-import { BrowserRouter } from "react-router-dom";
-import "./App.css";
+// import { BrowserRouter } from "react-router-dom";
+// import "./App.css";
 
-import RootRouter from "./RootRouter";
+// import RootRouter from "./RootRouter";
 
-function App() {
-  return (
-    <BrowserRouter>
-      <RootRouter />
-    </BrowserRouter>
-  );
-}
+// function App() {
+//   return (
+//     <BrowserRouter>
+//       <RootRouter />
+//     </BrowserRouter>
+//   );
+// }
 
-export default App;
+// export default App;
