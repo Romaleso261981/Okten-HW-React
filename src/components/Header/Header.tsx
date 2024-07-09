@@ -1,18 +1,23 @@
+import { Link } from "react-router-dom";
 import s from "./Header.module.css";
+import { RoutersPaths } from "../../shared/types/enums";
 
 export const Header = () => {
   return (
     <header className={s.header}>
       <nav className={s.nav}>
-        <a href="/admin" className={s.link}>
+        <Link to={RoutersPaths.ADMIN} className={s.link}>
           admin
-        </a>
-        <a href="/" className={s.link}>
+        </Link>
+        <Link to={RoutersPaths.MAIN} className={s.link}>
           home
-        </a>
-        <a href="/auth" className={s.link}>
+        </Link>
+        <Link to={RoutersPaths.TODO} className={s.link}>
+          Todo
+        </Link>
+        <Link to={RoutersPaths.AUTH} className={s.link}>
           Auth
-        </a>
+        </Link>
       </nav>
     </header>
   );

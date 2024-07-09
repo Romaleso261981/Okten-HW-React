@@ -96,3 +96,11 @@ export type UsersResponse = Respons & {
 export type PostsResponse = Respons & {
   posts: Post[];
 };
+
+export type TodosType = {
+  userId: number;
+  id: number;
+  title: string;
+  todo: string;
+  completed: boolean;
+};

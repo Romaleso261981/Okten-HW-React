@@ -1,24 +1,51 @@
-import { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
-
+import { createBrowserRouter } from "react-router-dom";
+import { Layout } from "../App/Layout";
 import { RoutersPaths } from "../shared/types/enums";
+import { Suspense, lazy } from "react";
 import { Spiner } from "../components/Spiner/Spiner";
-import { Layout } from "./Layout";
 
 const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
 const MainPage = lazy(() => import("../pages/MainPage/MainPage"));
 const Admin = lazy(() => import("../pages/Admin/Admin"));
+const TodosPages = lazy(() => import("../pages/Todos/Todos"));
 
-export default function RootRouter() {
-  return (
-    <Suspense fallback={<Spiner />}>
-      <Routes>
-        <Route path={RoutersPaths.AUTH} element={<AuthPage />} />
-        <Route element={<Layout />}>
-          <Route path={RoutersPaths.MAIN} element={<MainPage />} />
-          <Route path={RoutersPaths.ADMIN} element={<Admin />} />
-        </Route>
-      </Routes>
-    </Suspense>
-  );
-}
+export const router = createBrowserRouter([
+  {
+    path: RoutersPaths.MAIN,
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<Spiner />}>
+            <MainPage />
+          </Suspense>
+        )
+      },
+      {
+        path: RoutersPaths.ADMIN,
+        element: (
+          <Suspense fallback={<Spiner />}>
+            <Admin />
+          </Suspense>
+        )
+      },
+      {
+        path: RoutersPaths.TODO,
+        element: (
+          <Suspense fallback={<Spiner />}>
+            <TodosPages />
+          </Suspense>
+        )
+      },
+      {
+        path: RoutersPaths.AUTH,
+        element: (
+          <Suspense fallback={<Spiner />}>
+            <AuthPage />
+          </Suspense>
+        )
+      }
+    ]
+  }
+]);
