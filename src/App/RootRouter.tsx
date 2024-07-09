@@ -8,6 +8,7 @@ const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
 const MainPage = lazy(() => import("../pages/MainPage/MainPage"));
 const Admin = lazy(() => import("../pages/Admin/Admin"));
 const TodosPages = lazy(() => import("../pages/TodosPages/TodosPages"));
+const TodoPage = lazy(() => import("../pages/TodoDetailPage/TodoDetailPage"));
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +36,15 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Spiner />}>
             <TodosPages />
+          </Suspense>
+        ),
+        children: []
+      },
+      {
+        path: RoutersPaths.TODOBYID,
+        element: (
+          <Suspense fallback={<Spiner />}>
+            <TodoPage />
           </Suspense>
         )
       },

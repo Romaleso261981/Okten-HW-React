@@ -9,7 +9,7 @@ type TodoProps = {
 const Todo: FC<TodoProps> = ({ todo }) => {
   return (
     <div>
-      <Link to={todo.id.toString()}>{todo?.todo}</Link>;
+      <Link to={todo.id + ""}>{todo?.todo}</Link>;
     </div>
   );
 };
