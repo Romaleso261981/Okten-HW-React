@@ -4,8 +4,6 @@ import Todo from "../Todo/Todo";
 import s from "./Todos.mudule.css";
 
 export default function Todos({ todosData }: { todosData: TodoType[] }) {
-  console.log(todosData);
-
   if (!todosData.length) return <h1>Loading...</h1>;
 
   return (

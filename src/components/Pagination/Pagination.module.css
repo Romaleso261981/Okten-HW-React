@@ -1,0 +1,38 @@
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: 1px solid #4068ce;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.buttonPagination {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.buttonPagination:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.active .buttonPagination {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}

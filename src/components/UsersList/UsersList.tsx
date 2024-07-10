@@ -10,41 +10,37 @@ import {
 import { getAllUsers } from "../../hooks/getUsers";
 import { UserPosts } from "..";
 import { UserComponent } from "../UserComponent/UserComponent";
-import { useStateWithEffect } from "../../hooks/useMyCustomState";
+import { Pagination } from "../Pagination/Pagination";
 
 export const UsersList = () => {
   const [users, setUsers] = useState<User[] | []>([]);
   const [userPosts, setUserPosts] = useState<Post[] | null>(null);
-  const [skip, setSkip] = useStateWithEffect<number>(0);
-  // const [totalUser, setTotalUser] = useState<number>(0);
-  const [totalUser, setTotalUser] = useStateWithEffect<number>(0);
+  const [skipPage, setSkipPage] = useState<number>(0);
+  const [totalItems, setTotalItems] = useState<number>(0);
+
+  const itemsPerPage = 10;
 
   const limit = 10;
 
   const fetchUsers = async () => {
     const { users, total } = await getAllUsers<UsersResponse>(
-      `/users?limit=${limit}&skip=${skip}`
+      `/users?limit=${limit}&skip=${skipPage}`
     );
     setUsers([...users]);
-    setTotalUser(total);
-    console.log(totalUser);
+    setTotalItems(total);
   };
 
   useEffect(() => {
     fetchUsers();
-  }, [skip]);
+  }, [skipPage]);
+
+  const onPageChange = (pageNumber: number) => {
+    setSkipPage((pageNumber - 1) * itemsPerPage);
+  };
 
   const getUserPosts = async (id: number) => {
     const { posts } = await getAllUsers<PostsResponse>(`/users/${id}/posts`);
     setUserPosts([...posts]);
-  };
-
-  const nextUsers = async () => {
-    setSkip((prev) => prev + 10);
-  };
-
-  const prevUsers = async () => {
-    setSkip((prev) => prev - 10);
   };
 
   if (!users) {
@@ -62,12 +58,11 @@ export const UsersList = () => {
           />
         ))}
       </ul>
-      <div className={s.buttonWrapper}>
-        {skip !== 0 && <button onClick={prevUsers}>prev</button>}
-        {skip < totalUser && <button onClick={nextUsers}>Next</button>}
-      </div>
-      <h2>{`skip ${skip}`}</h2>
-      <h2>{`totalUser ${totalUser}`}</h2>
+      <Pagination
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={onPageChange}
+      />
       {userPosts && <UserPosts userPosts={userPosts} />}
     </section>
   );
