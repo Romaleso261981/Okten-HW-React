@@ -4,6 +4,8 @@ import Todos from "../../components/Todos/Todos";
 import { TodoType } from "../../shared/types/Types";
 import { Pagination } from "../../components/Pagination/Pagination";
 
+import s from "./TodosPages.module.css";
+
 const TodosPages = () => {
   const [todosData, setTodosData] = useState<TodoType[]>([]);
   const [skipPage, setSkipPage] = useState<number>(0);
@@ -27,14 +29,17 @@ const TodosPages = () => {
   }, [skipPage]);
 
   return (
-    <>
+    <section className={s.wrapper}>
+      <h1>Todos</h1>
       <Todos todosData={todosData} />
-      <Pagination
-        totalItems={totalItems}
-        itemsPerPage={itemsPerPage}
-        onPageChange={onPageChange}
-      />
-    </>
+      {todosData.length > 0 && (
+        <Pagination
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={onPageChange}
+        />
+      )}
+    </section>
   );
 };
 

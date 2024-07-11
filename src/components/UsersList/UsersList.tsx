@@ -58,11 +58,13 @@ export const UsersList = () => {
           />
         ))}
       </ul>
-      <Pagination
-        totalItems={totalItems}
-        itemsPerPage={itemsPerPage}
-        onPageChange={onPageChange}
-      />
+      {users.length > 0 && (
+        <Pagination
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={onPageChange}
+        />
+      )}
       {userPosts && <UserPosts userPosts={userPosts} />}
     </section>
   );

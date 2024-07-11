@@ -1,16 +1,26 @@
 import { FC } from "react";
 import { TodoType } from "../../shared/types/Types";
 import { Link } from "react-router-dom";
+import s from "./Todo.module.css"; // Підключення стилів
 
 type TodoProps = {
   todo: TodoType;
 };
 
 const Todo: FC<TodoProps> = ({ todo }) => {
+  console.log("🚀 ~ file: Todo.tsx ~ line 10 ~ Todo ~ todo", todo);
+
   return (
-    <div>
-      <Link to={todo.id + ""}>{todo?.todo}</Link>;
-    </div>
+    <li className={s.todoItem}>
+      <Link to={todo.id + ""}>
+        <span className={s.todoText}>{todo?.todo}</span>
+        <span
+          className={`${s.statusBox} ${
+            todo?.completed ? s.completed : s.notCompleted
+          }`}
+        ></span>
+      </Link>
+    </li>
   );
 };
 
