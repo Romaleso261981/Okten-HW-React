@@ -18,6 +18,9 @@ export const Header = () => {
         <Link to={RoutersPaths.AUTH} className={s.link}>
           Auth
         </Link>
+        <Link to={RoutersPaths.CARS} className={s.link}>
+          Cars
+        </Link>
       </nav>
     </header>
   );

@@ -1,34 +1,33 @@
 import { FC } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { ToastContainer, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 import s from "./LoginForm.module.css";
 import { AuthSteps } from "../../shared/types/enums";
+import { authService } from "../../shared/services/api.service";
 
 type LoginFormProps = {
   setCurrentStep: React.Dispatch<React.SetStateAction<AuthSteps>>;
 };
 
+type FormData = {
+  email: string;
+  password: string;
+};
+
 export const LoginForm: FC<LoginFormProps> = ({
   setCurrentStep
 }): JSX.Element => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm<FormData>();
 
-  const login = (data: any) => {
+  const login: SubmitHandler<FormData> = (data) => {
     let formData = {
       email: data.email,
       password: data.password
     };
-    fetch("https://jsonplaceholder.typicode.com/users", {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
+
+    authService.login(formData);
     reset();
   };
 
@@ -52,10 +51,10 @@ export const LoginForm: FC<LoginFormProps> = ({
                   {...register("email", { required: "Email is required!" })}
                 />
                 {/* {errors.email && (
-                      <p className="text-danger" style={{ fontSize: 14 }}>
-                        {errors.email.message}
-                      </p>
-                    )} */}
+                  <p className="text-danger" style={{ fontSize: 14 }}>
+                    {errors.email.message}
+                  </p>
+                )} */}
               </div>
               <div className={s.inputWrapper}>
                 <label>Password</label>
@@ -65,11 +64,6 @@ export const LoginForm: FC<LoginFormProps> = ({
                     required: "Password is required!"
                   })}
                 />
-                {/* {errors.password && (
-                      <p className="text-danger" style={{ fontSize: 14 }}>
-                        {errors.password.message}
-                      </p>
-                    )} */}
               </div>
               <div className={s.controllWrapper}>
                 <button type="submit">Login</button>
