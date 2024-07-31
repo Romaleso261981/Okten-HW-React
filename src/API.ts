@@ -1,36 +1,48 @@
 import axios from "axios";
-import { TokenRefresh } from "./models/TokenRefresh";
+// import { authService } from "./shared/services/api.service";
 
-// const baseUrl = "https://dummyjson.com";
+// const baseUrl = "http://owu.linkpc.net/carsAPI/v2";
 const baseUrl = "http://localhost:8000";
-// const baseUrl = "https://remontonlineback.up.railway.app";
+// const baseUrl = "https://dummyjson.up.railway.app";
 
 const API = axios.create({
   baseURL: `${baseUrl}`
 });
 
-API.interceptors.request.use(async (config) => {
+API.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem("accessToken");
-  if (accessToken) {
+  if (
+    accessToken &&
+    config.url !== "/users" &&
+    config.url !== "/auth" &&
+    config.url !== "/auth/refresh"
+  ) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
 });
 
-API.interceptors.response.use(async (response) => {
-  if (response.status === 401) {
-    const localrefreshToken = localStorage.getItem("refreshToken");
-    if (localrefreshToken) {
-      const response = await API.post<TokenRefresh>("/auth/refresh", {
-        refreshToken: localrefreshToken
-      });
-      localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
-    } else {
-      window.location.href = "/login";
-    }
-  }
-  return response;
-});
+// API.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   async (error) => {
+//     const originalRequest = error.config;
+//     if (
+//       error.response &&
+//       error.response.status === 401 &&
+//       !originalRequest._retry
+//     ) {
+//       originalRequest._retry = true;
+//       try {
+//         authService.refreshAccessTocken();
+//       } catch (refreshError) {
+//         console.log("Помилка оновлення токена:", refreshError);
+//         window.location.href = "/auth";
+//       }
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 export { API };

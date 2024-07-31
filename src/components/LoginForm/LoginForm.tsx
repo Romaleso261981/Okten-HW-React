@@ -12,7 +12,7 @@ type LoginFormProps = {
 };
 
 type FormData = {
-  email: string;
+  username: string;
   password: string;
 };
 
@@ -23,7 +23,7 @@ export const LoginForm: FC<LoginFormProps> = ({
 
   const login: SubmitHandler<FormData> = (data) => {
     let formData = {
-      email: data.email,
+      username: data.username,
       password: data.password
     };
 
@@ -39,22 +39,15 @@ export const LoginForm: FC<LoginFormProps> = ({
             <h3 className="card-title text-center text-secondary mt-3">
               Login Form
             </h3>
-            <form
-              className={s.form}
-              autoComplete="off"
-              onSubmit={handleSubmit(login)}
-            >
+            <form className={s.form} onSubmit={handleSubmit(login)}>
               <div className={s.inputWrapper}>
-                <label className="form-label">Email</label>
+                <label className="form-label">username</label>
                 <input
-                  type="email"
-                  {...register("email", { required: "Email is required!" })}
+                  type="Username"
+                  {...register("username", {
+                    required: "username is required!"
+                  })}
                 />
-                {/* {errors.email && (
-                  <p className="text-danger" style={{ fontSize: 14 }}>
-                    {errors.email.message}
-                  </p>
-                )} */}
               </div>
               <div className={s.inputWrapper}>
                 <label>Password</label>

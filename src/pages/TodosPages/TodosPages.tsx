@@ -17,11 +17,15 @@ const TodosPages = () => {
   };
 
   const getTodos = async () => {
-    const {
-      data: { todos, total }
-    } = await API.get(`/todos?skip=${skipPage}&limit=10`);
-    setTodosData(todos);
-    setTotalItems(total);
+    try {
+      const {
+        data: { todos, total }
+      } = await API.get(`/todos?skip=${skipPage}&limit=10`);
+      setTodosData(todos);
+      setTotalItems(total);
+    } catch (error) {
+      alert("Something went wrong");
+    }
   };
 
   useEffect(() => {

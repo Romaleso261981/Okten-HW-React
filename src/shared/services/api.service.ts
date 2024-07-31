@@ -15,50 +15,74 @@ const userService = {
 
 const carsService = {
   getCars: async (): Promise<CarsResponse> => {
-    let response = await API.post<CarsResponse>("/cars");
-    return response.data || [];
+    let cars = [] as unknown as CarsResponse;
+    try {
+      let response = await API.get<CarsResponse>("/cars");
+      cars = response.data || [];
+    } catch (error) {
+      throw new Error("Error while fetching cars");
+    }
+    return cars;
   },
 
-  saveCars: async (data: CarsModel): Promise<boolean> => {
-    let response = await API.post<UserResponse>("/users", data);
-    return !!response.data.id || false;
+  addedCars: async (data: CarsModel): Promise<void> => {
+    try {
+      let response = await API.post<UserResponse>("/cars", data);
+      console.log("response", response);
+    } catch (error) {}
   },
 
   removeCars: async (id: number): Promise<CarsModel> => {
-    let response = await API.delete<CarsModel>("/cars/remove/" + id);
-    return response.data;
+    let data = {} as CarsModel;
+    try {
+      let response = await API.delete<CarsModel>("/cars/remove/" + id);
+      data = response.data;
+    } catch (error) {}
+    return data;
   }
 };
 
 const authService = {
   login: async (data: UserModel): Promise<void> => {
-    let response = await API.post<TokenRefresh>("/auth/login", data);
-    console.log("response", response);
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
+    try {
+      let response = await API.post<TokenRefresh>("/auth", data);
+      console.log("response", response);
+      localStorage.setItem("accessToken", response.data.access);
+      localStorage.setItem("refreshToken", response.data.refresh);
+    } catch (error) {
+      console.log("error", error);
+    }
   },
   logOut: async (): Promise<void> => {
-    let response = await API.post<TokenRefresh>("/auth/logout");
-    console.log("response", response);
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    try {
+      let response = await API.post<TokenRefresh>("/auth/logout");
+      console.log("response", response);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    } catch (error) {}
   },
   register: async (data: UserModel): Promise<void> => {
-    let response = await API.post<TokenRefresh>("/auth/signup", data);
-    console.log("response", response);
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
+    try {
+      let response = await API.post<TokenRefresh>("/users", data);
+      console.log("response", response);
+      localStorage.setItem("accessToken", response.data.access);
+      localStorage.setItem("refreshToken", response.data.refresh);
+    } catch (error) {
+      console.log("error", error);
+    }
   },
-  refreshAccessTocken: async (): Promise<TokenRefresh> => {
-    const localrefreshToken = localStorage.getItem("refreshToken");
-    let response = await API.post<TokenRefresh>(
-      "/auth/refresh",
-      localrefreshToken
-    );
-    console.log("response", response);
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
-    return response.data;
+  refreshAccessTocken: async (): Promise<void> => {
+    try {
+      const localrefreshToken = localStorage.getItem("refreshToken");
+      let response = await API.post<TokenRefresh>("/auth/refresh", {
+        refresh: localrefreshToken
+      });
+      console.log("response", response);
+      localStorage.setItem("accessToken", response.data.access);
+      localStorage.setItem("refreshToken", response.data.refresh);
+    } catch (error) {
+      window.location.href = "/auth";
+    }
   }
 };
 
