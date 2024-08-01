@@ -72,17 +72,17 @@ const authService = {
     }
   },
   refreshAccessTocken: async (): Promise<void> => {
-    try {
-      const localrefreshToken = localStorage.getItem("refreshToken");
-      let response = await API.post<TokenRefresh>("/auth/refresh", {
-        refresh: localrefreshToken
-      });
-      console.log("response", response);
-      localStorage.setItem("accessToken", response.data.access);
-      localStorage.setItem("refreshToken", response.data.refresh);
-    } catch (error) {
-      window.location.href = "/auth";
-    }
+    // try {
+    //   const localrefreshToken = localStorage.getItem("refreshToken");
+    //   let response = await API.post<TokenRefresh>("/auth/refresh", {
+    //     refresh: localrefreshToken
+    //   });
+    //   console.log("response", response);
+    //   localStorage.setItem("accessToken", response.data.access);
+    //   localStorage.setItem("refreshToken", response.data.refresh);
+    // } catch (error) {
+    //   window.location.href = "/auth";
+    // }
   }
 };
 

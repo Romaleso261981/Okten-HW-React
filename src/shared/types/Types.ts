@@ -121,3 +121,22 @@ export type FormData = {
   username: string;
   password: string;
 };
+
+export type UserState = {
+  access: string;
+  refresh: string;
+  isLogged: boolean;
+  is_active: boolean;
+  is_staff: boolean;
+  is_superuser: boolean;
+  last_login: string | null;
+  userField: {
+    username: string;
+  };
+};
+
+export type LoginData = {
+  access: string;
+  refresh: string;
+  [key: string]: any;
+};
