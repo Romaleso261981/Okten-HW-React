@@ -104,3 +104,20 @@ export type TodoType = {
   todo: string;
   completed: boolean;
 };
+
+type UserField = {
+  username: string;
+};
+
+export type UserOcten = {
+  is_active: boolean;
+  is_staff: boolean;
+  is_superuser: boolean;
+  last_login: string | null;
+  userField: UserField;
+};
+
+export type FormData = {
+  username: string;
+  password: string;
+};

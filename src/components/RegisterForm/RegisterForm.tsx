@@ -4,7 +4,8 @@ import { ToastContainer, Flip } from "react-toastify";
 import { useForm } from "react-hook-form";
 
 import s from "./RegisterForm.module.css";
-import { authService } from "../../shared/services/api.service";
+import { useAppDispatch } from "../../store/store";
+import { registerUser } from "../../store/Slices/UserSlice";
 
 type RegisterFormProps = {
   setCurrentStep: React.Dispatch<React.SetStateAction<AuthSteps>>;
@@ -13,13 +14,14 @@ type RegisterFormProps = {
 const RegisterForm: FC<RegisterFormProps> = ({ setCurrentStep }) => {
   const { register, handleSubmit, reset } = useForm();
 
+  const dispatch = useAppDispatch();
+
   const registerForm = (data: any) => {
     let formData = {
       username: data.username,
       password: data.password
     };
-
-    authService.register(formData);
+    dispatch(registerUser(formData));
 
     reset();
   };

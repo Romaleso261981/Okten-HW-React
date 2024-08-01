@@ -5,7 +5,8 @@ import "react-toastify/dist/ReactToastify.min.css";
 
 import s from "./LoginForm.module.css";
 import { AuthSteps } from "../../shared/types/enums";
-import { authService } from "../../shared/services/api.service";
+import { useAppDispatch } from "../../store/store";
+import { loginUser } from "../../store/Slices/UserSlice";
 
 type LoginFormProps = {
   setCurrentStep: React.Dispatch<React.SetStateAction<AuthSteps>>;
@@ -21,13 +22,15 @@ export const LoginForm: FC<LoginFormProps> = ({
 }): JSX.Element => {
   const { register, handleSubmit, reset } = useForm<FormData>();
 
+  const dispatch = useAppDispatch();
+
   const login: SubmitHandler<FormData> = (data) => {
     let formData = {
       username: data.username,
       password: data.password
     };
 
-    authService.login(formData);
+    dispatch(loginUser(formData));
     reset();
   };
 

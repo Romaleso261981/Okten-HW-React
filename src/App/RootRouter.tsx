@@ -5,7 +5,7 @@ import { Suspense, lazy } from "react";
 import { Spiner } from "../components/Spiner/Spiner";
 
 const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
-const MainPage = lazy(() => import("../pages/MainPage/MainPage"));
+// const MainPage = lazy(() => import("../pages/MainPage/MainPage"));
 const Admin = lazy(() => import("../pages/Admin/Admin"));
 const TodosPages = lazy(() => import("../pages/TodosPages/TodosPages"));
 const TodoPage = lazy(() => import("../pages/TodoDetailPage/TodoDetailPage"));
@@ -20,7 +20,8 @@ export const router = createBrowserRouter([
         index: true,
         element: (
           <Suspense fallback={<Spiner />}>
-            <MainPage />
+            {/* <MainPage /> */}
+            <h1>Main</h1>
           </Suspense>
         )
       },
