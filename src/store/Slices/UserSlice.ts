@@ -41,6 +41,14 @@ export const aboutUser = createAsyncThunk<string, void>(
   }
 );
 
+export const currentUser = createAsyncThunk<string, void>(
+  "user/currentUser",
+  async () => {
+    const response = await API.get(apiUsersPath.ABOUTUSER);
+    return response.data;
+  }
+);
+
 export const refreshUser = createAsyncThunk<string, void>(
   "user/refreshUser",
   async () => {
@@ -53,7 +61,11 @@ const UserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    toggleModal() {}
+    logOut(state) {
+      state.isLogged = false;
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(registerUser.fulfilled, () => {});
@@ -69,8 +81,16 @@ const UserSlice = createSlice({
     builder.addCase(loginUser.rejected, (state) => {
       state.isLogged = false;
     });
+    builder.addCase(currentUser.pending, () => {});
+    builder.addCase(currentUser.fulfilled, (state) => {
+      state.isLogged = true;
+    });
+    builder.addCase(currentUser.rejected, (state) => {
+      state.isLogged = false;
+    });
   }
 });
 
-export const { toggleModal } = UserSlice.actions;
+export const { logOut } = UserSlice.actions;
+
 export default UserSlice.reducer;

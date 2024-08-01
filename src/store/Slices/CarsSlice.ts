@@ -3,6 +3,7 @@ import { API } from "../../API";
 import { apiCarsPath } from "../../shared/types/enums";
 import { CarsResponse } from "../../models/CarsResponseModel";
 import { CarsState } from "../../shared/types/Types";
+import { CarsModel } from "../../models/CarsModel";
 
 const initialState: CarsState = {
   isLogged: false,
@@ -18,10 +19,23 @@ export const getOwnCars = createAsyncThunk<CarsResponse>(
   "cars/getOwnCars",
   async () => {
     try {
-      let { data } = await API.get<CarsResponse>(apiCarsPath.GETOWNCARS);
+      let { data } = await API.get<CarsResponse>(apiCarsPath.CARS);
       return data;
     } catch (error) {
       throw new Error("Error while fetching cars");
+    }
+  }
+);
+
+export const addedCar = createAsyncThunk<CarsModel, CarsModel>(
+  "cars/addedCar",
+  async (data, thunkAPI) => {
+    try {
+      const response = await API.post(apiCarsPath.CARS, data);
+      console.log("response", response);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error while fetching cars");
     }
   }
 );
@@ -37,11 +51,13 @@ const CarsSlice = createSlice({
     builder.addCase(getOwnCars.fulfilled, (state, { payload }) => {
       state.isLogged = false;
       state.items = payload.items;
-      state.carsRespons.limit = payload.carsRespons.limit;
-      state.carsRespons.page = payload.carsRespons.page;
-      state.carsRespons.data = payload.carsRespons.data;
     });
     builder.addCase(getOwnCars.rejected, () => {});
+    builder.addCase(addedCar.pending, () => {});
+    builder.addCase(addedCar.fulfilled, (state, { payload }) => {
+      console.log("payload", payload);
+    });
+    builder.addCase(addedCar.rejected, () => {});
   }
 });
 

@@ -1,47 +1,62 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { carsService } from "../../shared/services/api.service";
 import { CarsModel } from "../../models/CarsModel";
+import { useAppDispatch } from "../../store/store";
+import { addedCar } from "../../store/Slices/CarsSlice";
 
 export const AddedCarsForm = () => {
-  const { register, handleSubmit, reset } = useForm<CarsModel>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<CarsModel>();
 
-  const addedCars: SubmitHandler<CarsModel> = (data) => {
-    let formData: CarsModel = {
-      _id: "0",
+  const dispatch = useAppDispatch();
+
+  const handleAddCar: SubmitHandler<CarsModel> = (data) => {
+    const formData: CarsModel = {
       brand: data.brand,
       year: data.year,
       price: data.price
     };
-
-    carsService.addedCars(formData);
+    dispatch(addedCar(formData));
     reset();
   };
 
   return (
     <section>
-      <form onSubmit={handleSubmit(addedCars)}>
-        <input
-          type="text"
-          placeholder="brand"
-          {...register("brand", {
-            required: "Password is required!"
-          })}
-        />
-        <input
-          type="text"
-          placeholder="Year"
-          {...register("year", {
-            required: "Password is required!"
-          })}
-        />
-        <input
-          type="text"
-          placeholder="Price"
-          {...register("price", {
-            required: "Password is required!"
-          })}
-        />
-        <button>Add</button>
+      <form onSubmit={handleSubmit(handleAddCar)}>
+        <div>
+          <input
+            type="text"
+            placeholder="Brand"
+            {...register("brand", {
+              required: "Brand is required!"
+            })}
+          />
+          {errors.brand && <p>{errors.brand.message}</p>}
+        </div>
+        <div>
+          <input
+            type="text"
+            placeholder="Year"
+            {...register("year", {
+              required: "Year is required!"
+            })}
+          />
+          {errors.year && <p>{errors.year.message}</p>}
+        </div>
+        <div>
+          <input
+            type="text"
+            placeholder="Price"
+            {...register("price", {
+              required: "Price is required!"
+            })}
+          />
+          {errors.price && <p>{errors.price.message}</p>}
+        </div>
+        <button type="submit">Add</button>
       </form>
     </section>
   );

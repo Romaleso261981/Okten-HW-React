@@ -13,6 +13,21 @@
   height: 100%;
 }
 
+.logOutButton {
+  background-color: transparent;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logOutButton:hover {
+  background-color: #f1f1f1;
+  box-shadow: #f1f1f1 0px 0px 10px;
+}
+
 .link {
   display: flex;
   align-items: center;
