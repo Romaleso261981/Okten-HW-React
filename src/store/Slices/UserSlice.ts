@@ -1,7 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API } from "../../API";
-import { TokenRefresh } from "../../models/TokenRefresh";
-import { UserState } from "../../shared/types/Types";
+import { TokenRefresh, UserState } from "../../shared/types/Types";
 import { apiUsersPath } from "../../shared/types/enums";
 
 const initialState: UserState = {
@@ -36,24 +35,37 @@ export const loginUser = createAsyncThunk<TokenRefresh, object>(
 export const aboutUser = createAsyncThunk<string, void>(
   "user/aboutUser",
   async () => {
-    const response = await API.get(apiUsersPath.ABOUTUSER);
-    return response.data;
+    try {
+      const response = await API.get(apiUsersPath.ABOUTUSER);
+      return response.data;
+    } catch (error) {
+      throw new Error("Error while fetching user");
+    }
   }
 );
 
 export const currentUser = createAsyncThunk<string, void>(
   "user/currentUser",
   async () => {
-    const response = await API.get(apiUsersPath.ABOUTUSER);
-    return response.data;
+    try {
+      const response = await API.get(apiUsersPath.ABOUTUSER);
+      return response.data;
+    } catch (error) {
+      throw new Error("Error while fetching user");
+    }
   }
 );
 
-export const refreshUser = createAsyncThunk<string, void>(
-  "user/refreshUser",
+export const refreshAccessTocken = createAsyncThunk<TokenRefresh>(
+  "user/refreshAccessTocken",
   async () => {
-    const response = await API.get(apiUsersPath.REFRESH);
-    return response.data;
+    try {
+      const response = await API.post(
+        apiUsersPath.REFRESHTOKEN,
+        localStorage.get("refreshToken")
+      );
+      return response.data;
+    } catch (error) {}
   }
 );
 
@@ -88,6 +100,12 @@ const UserSlice = createSlice({
     builder.addCase(currentUser.rejected, (state) => {
       state.isLogged = false;
     });
+    builder.addCase(refreshAccessTocken.pending, () => {});
+    builder.addCase(refreshAccessTocken.fulfilled, (_, { payload }) => {
+      localStorage.setItem("accessToken", payload.access);
+      localStorage.setItem("refreshToken", payload.refresh);
+    });
+    builder.addCase(refreshAccessTocken.rejected, () => {});
   }
 });
 

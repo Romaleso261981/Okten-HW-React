@@ -1,4 +1,5 @@
 import axios from "axios";
+import { refreshAccessTocken } from "./store/Slices/UserSlice";
 // import { authService } from "./shared/services/api.service";
 
 const baseUrl = "http://owu.linkpc.net/carsAPI/v2";
@@ -22,27 +23,30 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// API.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   async (error) => {
-//     const originalRequest = error.config;
-//     if (
-//       error.response &&
-//       error.response.status === 401 &&
-//       !originalRequest._retry
-//     ) {
-//       originalRequest._retry = true;
-//       try {
-//         authService.refreshAccessTocken();
-//       } catch (refreshError) {
-//         console.log("Помилка оновлення токена:", refreshError);
-//         window.location.href = "/auth";
-//       }
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+API.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+      console.log("interceptors.response");
+      try {
+        console.log("try");
+        refreshAccessTocken();
+      } catch (refreshError) {
+        console.log("refreshError");
+        console.log("Помилка оновлення токена:", refreshError);
+        window.location.href = "/auth";
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export { API };

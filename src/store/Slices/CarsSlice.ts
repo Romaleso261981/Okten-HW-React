@@ -4,6 +4,7 @@ import { apiCarsPath } from "../../shared/types/enums";
 import { CarsResponse } from "../../models/CarsResponseModel";
 import { CarsState } from "../../shared/types/Types";
 import { CarsModel } from "../../models/CarsModel";
+import { refreshAccessTocken } from "./UserSlice";
 
 const initialState: CarsState = {
   isLogged: false,
@@ -22,6 +23,7 @@ export const getOwnCars = createAsyncThunk<CarsResponse>(
       let { data } = await API.get<CarsResponse>(apiCarsPath.CARS);
       return data;
     } catch (error) {
+      refreshAccessTocken();
       throw new Error("Error while fetching cars");
     }
   }

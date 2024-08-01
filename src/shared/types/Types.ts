@@ -162,3 +162,8 @@ export type LoginData = {
   refresh: string;
   [key: string]: any;
 };
+
+export type TokenRefresh = {
+  refresh: string;
+  access: string;
+};

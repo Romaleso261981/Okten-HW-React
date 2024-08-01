@@ -17,7 +17,7 @@ export enum apiUsersPath {
   REGISTER = "/users",
   LOGIN = "/auth",
   ABOUTUSER = "/auth/me",
-  REFRESH = "/auth/refresh"
+  REFRESHTOKEN = "/auth/refresh"
 }
 
 export enum apiCarsPath {
