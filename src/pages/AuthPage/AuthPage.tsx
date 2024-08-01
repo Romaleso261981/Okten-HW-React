@@ -15,8 +15,6 @@ const AuthPage = () => {
   const isLogged = useAppSelector(isLoggedUser);
   const navigate = useNavigate();
 
-  console.log("isLogged", isLogged);
-
   useEffect(() => {
     if (isLogged) {
       navigate("/cars");

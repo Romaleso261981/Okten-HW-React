@@ -1,6 +1,7 @@
 export type CarsModel = {
-  _id: string;
+  id: string;
   year: string;
   brand: string;
   price: number;
+  photo: string;
 };

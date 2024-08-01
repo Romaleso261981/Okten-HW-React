@@ -10,7 +10,7 @@ export const CarsList: FC<CarsListProps> = ({ cars }) => {
     <ul>
       {cars.map((car) => {
         return (
-          <li key={car._id}>
+          <li key={car.id}>
             <span>
               {car.brand} - {car.year} - {car.price}
             </span>

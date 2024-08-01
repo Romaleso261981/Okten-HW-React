@@ -61,7 +61,6 @@ const UserSlice = createSlice({
     builder.addCase(
       loginUser.fulfilled,
       (state, { payload }: PayloadAction<TokenRefresh>) => {
-        console.log("payload", payload);
         localStorage.setItem("accessToken", payload.access);
         localStorage.setItem("refreshToken", payload.refresh);
         state.isLogged = true;

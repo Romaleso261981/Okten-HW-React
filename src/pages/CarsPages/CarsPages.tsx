@@ -16,7 +16,6 @@ export default function CarsPages() {
   const getCarsData = async () => {
     try {
       const response = await carsService.getCars();
-      console.log(response);
       setCars(response.items);
     } catch (error) {
       authService.refreshAccessTocken();
