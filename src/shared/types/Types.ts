@@ -1,3 +1,5 @@
+import { CarsModel } from "../../models/CarsModel";
+
 export type User = {
   id: number;
   email: string;
@@ -132,6 +134,26 @@ export type UserState = {
   last_login: string | null;
   userField: {
     username: string;
+  };
+};
+
+export type Car = {
+  id: number;
+  brand: string;
+  model: string;
+  year: number;
+  color: string;
+  price: number;
+  image: string;
+};
+
+export type CarsState = {
+  isLogged: boolean;
+  items: CarsModel[];
+  carsRespons: {
+    limit: number;
+    page: number;
+    data: CarsModel[];
   };
 };
 

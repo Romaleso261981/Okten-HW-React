@@ -13,9 +13,13 @@ export enum AuthSteps {
   Login = "login"
 }
 
-export enum apiPath {
+export enum apiUsersPath {
   REGISTER = "/users",
   LOGIN = "/auth",
   ABOUTUSER = "/auth/me",
   REFRESH = "/auth/refresh"
+}
+
+export enum apiCarsPath {
+  GETOWNCARS = "/cars"
 }

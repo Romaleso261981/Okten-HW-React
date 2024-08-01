@@ -1,8 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiPath } from "../../shared/types/enums";
 import { API } from "../../API";
 import { TokenRefresh } from "../../models/TokenRefresh";
 import { UserState } from "../../shared/types/Types";
+import { apiUsersPath } from "../../shared/types/enums";
 
 const initialState: UserState = {
   access: "",
@@ -20,7 +20,7 @@ const initialState: UserState = {
 export const registerUser = createAsyncThunk<TokenRefresh, object>(
   "user/registerUser",
   async (data) => {
-    const response = await API.post<TokenRefresh>(apiPath.REGISTER, data);
+    const response = await API.post<TokenRefresh>(apiUsersPath.REGISTER, data);
     return response.data;
   }
 );
@@ -28,7 +28,7 @@ export const registerUser = createAsyncThunk<TokenRefresh, object>(
 export const loginUser = createAsyncThunk<TokenRefresh, object>(
   "user/loginUser",
   async (data) => {
-    const response = await API.post<TokenRefresh>(apiPath.LOGIN, data);
+    const response = await API.post<TokenRefresh>(apiUsersPath.LOGIN, data);
     return response.data;
   }
 );
@@ -36,7 +36,7 @@ export const loginUser = createAsyncThunk<TokenRefresh, object>(
 export const aboutUser = createAsyncThunk<string, void>(
   "user/aboutUser",
   async () => {
-    const response = await API.get(apiPath.ABOUTUSER);
+    const response = await API.get(apiUsersPath.ABOUTUSER);
     return response.data;
   }
 );
@@ -44,7 +44,7 @@ export const aboutUser = createAsyncThunk<string, void>(
 export const refreshUser = createAsyncThunk<string, void>(
   "user/refreshUser",
   async () => {
-    const response = await API.get(apiPath.REFRESH);
+    const response = await API.get(apiUsersPath.REFRESH);
     return response.data;
   }
 );
@@ -66,7 +66,9 @@ const UserSlice = createSlice({
         state.isLogged = true;
       }
     );
-    builder.addCase(loginUser.rejected, () => {});
+    builder.addCase(loginUser.rejected, (state) => {
+      state.isLogged = false;
+    });
   }
 });
 
