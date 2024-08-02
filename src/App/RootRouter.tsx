@@ -58,15 +58,15 @@ export const router = createBrowserRouter([
             <TodoPage />
           </Suspense>
         )
-      },
-      {
-        path: RoutersPaths.AUTH,
-        element: (
-          <Suspense fallback={<Spiner />}>
-            <AuthPage />
-          </Suspense>
-        )
       }
     ]
+  },
+  {
+    path: RoutersPaths.AUTH,
+    element: (
+      <Suspense fallback={<Spiner />}>
+        <AuthPage />
+      </Suspense>
+    )
   }
 ]);

@@ -1,9 +1,9 @@
 import axios from "axios";
-import { refreshAccessTocken } from "./store/Slices/UserSlice";
+import { apiUsersPath } from "./shared/types/enums";
 // import { authService } from "./shared/services/api.service";
 
-const baseUrl = "http://owu.linkpc.net/carsAPI/v2";
-// const baseUrl = "http://localhost:8000";
+// const baseUrl = "http://owu.linkpc.net/carsAPI/v2";
+const baseUrl = "http://localhost:8000";
 // const baseUrl = "https://dummyjson.up.railway.app";
 
 const API = axios.create({
@@ -25,20 +25,21 @@ API.interceptors.request.use((config) => {
 
 API.interceptors.response.use(
   (response) => {
+    console.log("response", response);
     return response;
   },
   async (error) => {
     const originalRequest = error.config;
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
+    console.log("error", error);
+    if (error.response && error.response.status === 401) {
       originalRequest._retry = true;
-      console.log("interceptors.response");
       try {
-        console.log("try");
-        refreshAccessTocken();
+        const response = await API.post(
+          apiUsersPath.REFRESHTOKEN,
+          localStorage.get("refreshToken")
+        );
+        localStorage.setItem("accessToken", response.data.access);
+        localStorage.setItem("refreshToken", response.data.refresh);
       } catch (refreshError) {
         console.log("refreshError");
         console.log("Помилка оновлення токена:", refreshError);

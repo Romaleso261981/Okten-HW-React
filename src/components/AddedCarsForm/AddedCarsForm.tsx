@@ -3,30 +3,43 @@ import { CarsModel } from "../../models/CarsModel";
 import { useAppDispatch } from "../../store/store";
 import { addedCar } from "../../store/Slices/CarsSlice";
 
-export const AddedCarsForm = () => {
+import s from "./AddedCarsForm.module.css";
+import { FC } from "react";
+
+type AddedCarsFormProps = {
+  toggleAddedCarsForm: () => void;
+};
+
+export const AddedCarsForm: FC<AddedCarsFormProps> = ({
+  toggleAddedCarsForm
+}) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm<CarsModel>();
+  } = useForm<Omit<CarsModel, "id">>();
 
   const dispatch = useAppDispatch();
 
-  const handleAddCar: SubmitHandler<CarsModel> = (data) => {
-    const formData: CarsModel = {
+  const handleAddCar: SubmitHandler<Omit<CarsModel, "id">> = (data) => {
+    const formData: Omit<CarsModel, "id"> = {
       brand: data.brand,
       year: data.year,
-      price: data.price
+      price: data.price,
+      photo: data.photo
     };
     dispatch(addedCar(formData));
     reset();
   };
 
   return (
-    <section>
+    <section className={s.formWrapper}>
+      <div className={s.close} onClick={toggleAddedCarsForm}>
+        X
+      </div>
       <form onSubmit={handleSubmit(handleAddCar)}>
-        <div>
+        <div className={s.inputWrapper}>
           <input
             type="text"
             placeholder="Brand"
@@ -36,7 +49,7 @@ export const AddedCarsForm = () => {
           />
           {errors.brand && <p>{errors.brand.message}</p>}
         </div>
-        <div>
+        <div className={s.inputWrapper}>
           <input
             type="text"
             placeholder="Year"
@@ -46,7 +59,11 @@ export const AddedCarsForm = () => {
           />
           {errors.year && <p>{errors.year.message}</p>}
         </div>
-        <div>
+        <div className={s.inputWrapper}>
+          <input type="text" placeholder="Photo" {...register("photo")} />
+          {errors.price && <p>{errors.price.message}</p>}
+        </div>
+        <div className={s.inputWrapper}>
           <input
             type="text"
             placeholder="Price"
@@ -56,7 +73,9 @@ export const AddedCarsForm = () => {
           />
           {errors.price && <p>{errors.price.message}</p>}
         </div>
-        <button type="submit">Add</button>
+        <button type="submit" className={s.formBtn}>
+          Add
+        </button>
       </form>
     </section>
   );

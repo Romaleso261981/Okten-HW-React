@@ -4,7 +4,6 @@ import { apiCarsPath } from "../../shared/types/enums";
 import { CarsResponse } from "../../models/CarsResponseModel";
 import { CarsState } from "../../shared/types/Types";
 import { CarsModel } from "../../models/CarsModel";
-import { refreshAccessTocken } from "./UserSlice";
 
 const initialState: CarsState = {
   isLogged: false,
@@ -23,13 +22,12 @@ export const getOwnCars = createAsyncThunk<CarsResponse>(
       let { data } = await API.get<CarsResponse>(apiCarsPath.CARS);
       return data;
     } catch (error) {
-      refreshAccessTocken();
       throw new Error("Error while fetching cars");
     }
   }
 );
 
-export const addedCar = createAsyncThunk<CarsModel, CarsModel>(
+export const addedCar = createAsyncThunk<CarsResponse, Omit<CarsModel, "id">>(
   "cars/addedCar",
   async (data, thunkAPI) => {
     try {
@@ -57,7 +55,7 @@ const CarsSlice = createSlice({
     builder.addCase(getOwnCars.rejected, () => {});
     builder.addCase(addedCar.pending, () => {});
     builder.addCase(addedCar.fulfilled, (state, { payload }) => {
-      console.log("payload", payload);
+      state.items = payload.items;
     });
     builder.addCase(addedCar.rejected, () => {});
   }

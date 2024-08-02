@@ -48,24 +48,11 @@ export const currentUser = createAsyncThunk<string, void>(
   "user/currentUser",
   async () => {
     try {
-      const response = await API.get(apiUsersPath.ABOUTUSER);
+      const response = await API.post(apiUsersPath.CURRENTUSER);
       return response.data;
     } catch (error) {
       throw new Error("Error while fetching user");
     }
-  }
-);
-
-export const refreshAccessTocken = createAsyncThunk<TokenRefresh>(
-  "user/refreshAccessTocken",
-  async () => {
-    try {
-      const response = await API.post(
-        apiUsersPath.REFRESHTOKEN,
-        localStorage.get("refreshToken")
-      );
-      return response.data;
-    } catch (error) {}
   }
 );
 
@@ -100,12 +87,6 @@ const UserSlice = createSlice({
     builder.addCase(currentUser.rejected, (state) => {
       state.isLogged = false;
     });
-    builder.addCase(refreshAccessTocken.pending, () => {});
-    builder.addCase(refreshAccessTocken.fulfilled, (_, { payload }) => {
-      localStorage.setItem("accessToken", payload.access);
-      localStorage.setItem("refreshToken", payload.refresh);
-    });
-    builder.addCase(refreshAccessTocken.rejected, () => {});
   }
 });
 
