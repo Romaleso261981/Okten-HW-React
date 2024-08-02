@@ -2,12 +2,21 @@ import { FC } from "react";
 import { CarsModel } from "../../models/CarsModel";
 
 import s from "./CarsList.module.css";
+import { useAppDispatch } from "../../store/store";
+import { deleteCar } from "../../store/Slices/CarsSlice";
 
 type CarsListProps = {
   cars: CarsModel[];
 };
 
 export const CarsList: FC<CarsListProps> = ({ cars }) => {
+  const dispatch = useAppDispatch();
+
+  const handleRemoveElement = (id: string | undefined) => {
+    console.log("id", id);
+
+    dispatch(deleteCar(id));
+  };
   return (
     <ul className={s.carsList}>
       {cars.map((car) => {
@@ -25,7 +34,12 @@ export const CarsList: FC<CarsListProps> = ({ cars }) => {
             />
             <div className={s.buttonWrapper}>
               <button className={s.carButtonEdit}>Edit</button>
-              <button className={s.carButtonRemove}>Remove</button>
+              <button
+                className={s.carButtonRemove}
+                onClick={() => handleRemoveElement(car._id)}
+              >
+                Remove
+              </button>
             </div>
           </li>
         );

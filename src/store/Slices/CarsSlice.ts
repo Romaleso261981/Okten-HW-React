@@ -40,6 +40,19 @@ export const addedCar = createAsyncThunk<CarsResponse, Omit<CarsModel, "id">>(
   }
 );
 
+export const deleteCar = createAsyncThunk<CarsResponse, string | undefined>(
+  "cars/deleteCar",
+  async (id, thunkAPI) => {
+    try {
+      const response = await API.delete(`users/${id}`);
+      console.log("response", response);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error while fetching cars");
+    }
+  }
+);
+
 const CarsSlice = createSlice({
   name: "cars",
   initialState,
