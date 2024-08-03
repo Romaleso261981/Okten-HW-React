@@ -10,13 +10,16 @@ import { Pagination } from "../../components/Pagination/Pagination";
 
 export default function CarsPages() {
   const [isAddedCarsForm, setIsAddedCarsForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const isLogged = useAppSelector(isLoggedUser);
   const cars = useAppSelector((state) => state.cars.items);
 
   const {
-    carsRespons: { data, limit, page }
+    carsRespons: { total_items, limit }
   } = useAppSelector((state) => state.cars);
+
+  console.log("total_items  ", total_items);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -31,8 +34,13 @@ export default function CarsPages() {
     setIsAddedCarsForm(!isAddedCarsForm);
   };
 
+  const onPageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    dispatch(getOwnCars({ page: pageNumber }));
+  };
+
   useEffect(() => {
-    dispatch(getOwnCars());
+    dispatch(getOwnCars({ page: currentPage }));
   }, []);
 
   if (!cars) return <div>Loading...</div>;
@@ -47,9 +55,9 @@ export default function CarsPages() {
       )}
       <CarsList cars={cars} />
       <Pagination
-        totalItems={data.length}
-        itemsPerPage={10}
-        onPageChange={() => {}}
+        totalItems={total_items}
+        itemsPerPage={limit}
+        onPageChange={onPageChange}
       />
     </div>
   );

@@ -151,6 +151,8 @@ export type CarsState = {
   isLogged: boolean;
   items: CarsModel[];
   carsRespons: {
+    total_pages: number;
+    total_items: number;
     limit: number;
     page: number;
     data: CarsModel[];

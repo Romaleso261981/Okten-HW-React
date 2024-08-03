@@ -3,8 +3,9 @@ import { CarsModel } from "./CarsModel";
 export type CarsResponse = {
   items: CarsModel[];
   carsRespons: {
-    limit: number;
-    page: number;
-    data: CarsModel[];
+    total_pages: number;
+    total_items: number;
+    prev: number;
+    next: number;
   };
 };
