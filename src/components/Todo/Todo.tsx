@@ -8,8 +8,6 @@ type TodoProps = {
 };
 
 const Todo: FC<TodoProps> = ({ todo }) => {
-  console.log("🚀 ~ file: Todo.tsx ~ line 10 ~ Todo ~ todo", todo);
-
   return (
     <li className={s.todoItem}>
       <Link to={todo.id + ""}>

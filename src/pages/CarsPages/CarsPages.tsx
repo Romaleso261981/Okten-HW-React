@@ -38,14 +38,13 @@ export default function CarsPages() {
   if (!cars) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className={s.wrapper}>
       <button className={s.addedCarsButton} onClick={toggleAddedCarsForm}>
         Продати авто
       </button>
       {isAddedCarsForm && (
         <AddedCarsForm toggleAddedCarsForm={toggleAddedCarsForm} />
       )}
-      <h1>Cars</h1>
       <CarsList cars={cars} />
       <Pagination
         totalItems={data.length}

@@ -1,14 +1,13 @@
 import { API } from "../../API";
 import { CarsModel } from "../../models/CarsModel";
 import { CarsResponse } from "../../models/CarsResponseModel";
-import { TokenRefresh } from "../../models/TokenRefresh";
 import { UserModel } from "../../models/UserModel";
 import { UserResponse } from "../../models/UserResponseModel";
+import { TokenRefresh } from "../types/Types";
 
 const userService = {
   saveUser: async (data: UserModel): Promise<boolean> => {
     let response = await API.post<UserResponse>("/users", data);
-    console.log(response.status === 201);
     return !!response.data.id || false;
   }
 };
@@ -28,7 +27,6 @@ const carsService = {
   addedCars: async (data: CarsModel): Promise<void> => {
     try {
       let response = await API.post<UserResponse>("/cars", data);
-      console.log("response", response);
     } catch (error) {}
   },
 
@@ -46,7 +44,6 @@ const authService = {
   login: async (data: UserModel): Promise<void> => {
     try {
       let response = await API.post<TokenRefresh>("/auth", data);
-      console.log("response", response);
       localStorage.setItem("accessToken", response.data.access);
       localStorage.setItem("refreshToken", response.data.refresh);
     } catch (error) {
@@ -55,8 +52,7 @@ const authService = {
   },
   logOut: async (): Promise<void> => {
     try {
-      let response = await API.post<TokenRefresh>("/auth/logout");
-      console.log("response", response);
+      await API.post<TokenRefresh>("/auth/logout");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
     } catch (error) {}
@@ -64,7 +60,6 @@ const authService = {
   register: async (data: UserModel): Promise<void> => {
     try {
       let response = await API.post<TokenRefresh>("/users", data);
-      console.log("response", response);
       localStorage.setItem("accessToken", response.data.access);
       localStorage.setItem("refreshToken", response.data.refresh);
     } catch (error) {
@@ -77,7 +72,6 @@ const authService = {
       let response = await API.post<TokenRefresh>("/auth/refresh", {
         refresh: localrefreshToken
       });
-      console.log("response", response);
       localStorage.setItem("accessToken", response.data.access);
       localStorage.setItem("refreshToken", response.data.refresh);
     } catch (error) {

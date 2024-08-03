@@ -13,8 +13,6 @@ export const CarsList: FC<CarsListProps> = ({ cars }) => {
   const dispatch = useAppDispatch();
 
   const handleRemoveElement = (id: string | undefined) => {
-    console.log("id", id);
-
     dispatch(deleteCar(id));
   };
   return (
