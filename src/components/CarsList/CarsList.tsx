@@ -7,9 +7,10 @@ import { deleteCar } from "../../store/Slices/CarsSlice";
 
 type CarsListProps = {
   cars: CarsModel[];
+  toggleEditCardForm: (id: string | undefined) => void;
 };
 
-export const CarsList: FC<CarsListProps> = ({ cars }) => {
+export const CarsList: FC<CarsListProps> = ({ cars, toggleEditCardForm }) => {
   const dispatch = useAppDispatch();
 
   const handleRemoveElement = (id: string | undefined) => {
@@ -31,7 +32,12 @@ export const CarsList: FC<CarsListProps> = ({ cars }) => {
               alt={car.brand}
             />
             <div className={s.buttonWrapper}>
-              <button className={s.carButtonEdit}>Edit</button>
+              <button
+                className={s.carButtonEdit}
+                onClick={() => toggleEditCardForm(car._id)}
+              >
+                Edit
+              </button>
               <button
                 className={s.carButtonRemove}
                 onClick={() => handleRemoveElement(car._id)}

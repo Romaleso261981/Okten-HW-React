@@ -28,7 +28,6 @@ export const getOwnCars = createAsyncThunk<CarsResponse, RequestGetOwnCar>(
       const response = await API.get<CarsResponse>(apiCarsPath.CARS, {
         params
       });
-      console.log("response", response);
       return response.data;
     } catch (error) {
       return rejectWithValue("Error while fetching cars");
