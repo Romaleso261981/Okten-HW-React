@@ -150,6 +150,7 @@ export type Car = {
 export type CarsState = {
   isLogged: boolean;
   items: CarsModel[];
+  currentPages: number;
   carsRespons: {
     total_pages: number;
     total_items: number;

@@ -22,5 +22,6 @@ export enum apiUsersPath {
 }
 
 export enum apiCarsPath {
-  CARS = "/cars"
+  CARS = "/cars",
+  DOCS = "/cars/docs"
 }
