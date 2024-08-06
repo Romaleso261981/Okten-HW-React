@@ -6,6 +6,17 @@ import axios from "axios";
 const baseUrl = "http://localhost:8000";
 // const baseUrl = "https://dummyjson.up.railway.app";
 
+export enum apiBasePath {
+  OWNLINKPC = "http://owu.linkpc.net/carsAPI/v2",
+  LOCALHOST = "http://localhost:8000",
+  RAILWAY = "https://dummyjson.up.railway.app",
+  JSONPLACEHOLDER = "https://jsonplaceholder.typicode.com"
+}
+
+export const createFullUrl = (baseUrl: string, url: string) => {
+  return `${baseUrl}${url}`;
+};
+
 const API = axios.create({
   baseURL: `${baseUrl}`
 });

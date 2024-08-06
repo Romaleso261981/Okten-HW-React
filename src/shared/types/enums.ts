@@ -3,7 +3,7 @@ export enum RoutersPaths {
   ADMIN = "/admin",
   AUTH = "/auth",
   CARS = "/cars",
-  TODO = "/todos",
+  USERS = "/users",
   TODOBYID = "/todos/:id",
   NOFOUND = "*"
 }

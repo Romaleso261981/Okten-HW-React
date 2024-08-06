@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import UserSlice from "./Slices/UserSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import CarsSlice from "./Slices/CarsSlice";
+import AuthSlice from "./Slices/AuthSlice";
+import UsersSlice from "./Slices/UsersSlice";
 
 export const store = configureStore({
   reducer: {
-    user: UserSlice,
-    cars: CarsSlice
+    auth: AuthSlice,
+    cars: CarsSlice,
+    users: UsersSlice
   }
 });
 

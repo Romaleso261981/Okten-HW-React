@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 import s from "./RegisterForm.module.css";
 import { useAppDispatch } from "../../store/store";
-import { registerUser } from "../../store/Slices/UserSlice";
+import { registerUser } from "../../store/Slices/AuthSlice";
 
 type RegisterFormProps = {
   setCurrentStep: React.Dispatch<React.SetStateAction<AuthSteps>>;

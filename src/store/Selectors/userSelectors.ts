@@ -1,4 +1,4 @@
 import { RootState } from "../store";
 
-export const getUsers = (state: RootState) => state.user;
-export const isLoggedUser = (state: RootState) => state.user.isLogged;
+export const getUsers = (state: RootState) => state.auth;
+export const isLoggedUser = (state: RootState) => state.auth.isLogged;
