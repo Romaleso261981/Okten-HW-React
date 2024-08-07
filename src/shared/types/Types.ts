@@ -71,6 +71,22 @@ export type User = {
     wallet: string;
   };
 };
+export type UserFromJsonplaceholder = {
+  email: string;
+  id: number;
+  name: string;
+  phone: string;
+  username: string;
+  website: string;
+  address: {
+    city: string;
+    geo: { lat: string; lng: string };
+    street: string;
+    suite: string;
+    zipcode: string;
+  };
+  company: { bs: string; catchPhrase: string; name: string };
+};
 
 export type Post = {
   body: string;
@@ -165,7 +181,7 @@ export type UsersState = {
   currentPages: number;
   itemsPerPage: number;
   isLogged: boolean;
-  items: User[];
+  items: UserFromJsonplaceholder[];
   error: string;
   userPosts: Post[];
 };
