@@ -1,3 +1,5 @@
+import { CarsModel } from "../../models/CarsModel";
+
 export type User = {
   id: number;
   email: string;
@@ -69,6 +71,22 @@ export type User = {
     wallet: string;
   };
 };
+export type UserFromJsonplaceholder = {
+  email: string;
+  id: number;
+  name: string;
+  phone: string;
+  username: string;
+  website: string;
+  address: {
+    city: string;
+    geo: { lat: string; lng: string };
+    street: string;
+    suite: string;
+    zipcode: string;
+  };
+  company: { bs: string; catchPhrase: string; name: string };
+};
 
 export type Post = {
   body: string;
@@ -103,4 +121,78 @@ export type TodoType = {
   title: string;
   todo: string;
   completed: boolean;
+};
+
+type UserField = {
+  username: string;
+};
+
+export type UserOcten = {
+  is_active: boolean;
+  is_staff: boolean;
+  is_superuser: boolean;
+  last_login: string | null;
+  userField: UserField;
+};
+
+export type FormData = {
+  username: string;
+  password: string;
+};
+
+export type AuthState = {
+  access: string | null;
+  refresh: string | null;
+  isLogged: boolean;
+  is_active: boolean;
+  is_staff: boolean;
+  is_superuser: boolean;
+  last_login: string | null;
+  userField: {
+    username: string | null;
+  };
+};
+
+export type Car = {
+  id: number;
+  brand: string;
+  model: string;
+  year: number;
+  color: string;
+  price: number;
+  image: string;
+};
+
+export type CarsState = {
+  isLogged: boolean;
+  items: CarsModel[];
+  error: string | null;
+  currentPages: number;
+  carsRespons: {
+    total_pages: number;
+    total_items: number;
+    limit: number;
+    page: number;
+    data: CarsModel[];
+  };
+};
+
+export type UsersState = {
+  currentPages: number;
+  itemsPerPage: number;
+  isLogged: boolean;
+  items: UserFromJsonplaceholder[];
+  error: string | null;
+  userPosts: Post[];
+};
+
+export type LoginData = {
+  access: string;
+  refresh: string;
+  [key: string]: any;
+};
+
+export type TokenRefresh = {
+  refresh: string;
+  access: string;
 };

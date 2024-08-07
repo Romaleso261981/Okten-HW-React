@@ -4,6 +4,8 @@ import { ToastContainer, Flip } from "react-toastify";
 import { useForm } from "react-hook-form";
 
 import s from "./RegisterForm.module.css";
+import { useAppDispatch } from "../../store/store";
+import { registerUser } from "../../store/Slices/AuthSlice";
 
 type RegisterFormProps = {
   setCurrentStep: React.Dispatch<React.SetStateAction<AuthSteps>>;
@@ -12,21 +14,15 @@ type RegisterFormProps = {
 const RegisterForm: FC<RegisterFormProps> = ({ setCurrentStep }) => {
   const { register, handleSubmit, reset } = useForm();
 
+  const dispatch = useAppDispatch();
+
   const registerForm = (data: any) => {
     let formData = {
-      email: data.email,
-      password: data.password,
-      name: data.name
+      username: data.username,
+      password: data.password
     };
-    fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
+    dispatch(registerUser(formData));
+
     reset();
   };
 
@@ -44,28 +40,13 @@ const RegisterForm: FC<RegisterFormProps> = ({ setCurrentStep }) => {
               onSubmit={handleSubmit(registerForm)}
             >
               <div className={s.inputWrapper}>
-                <label className="form-label">Name</label>
+                <label className="form-label">username</label>
                 <input
                   type="text"
-                  {...register("name", { required: "Name is required!" })}
+                  {...register("username", {
+                    required: "username is required!"
+                  })}
                 />
-                {/* {errors.email && (
-                      <p className="text-danger" style={{ fontSize: 14 }}>
-                        {errors.email.message}
-                      </p>
-                    )} */}
-              </div>
-              <div className={s.inputWrapper}>
-                <label className="form-label">Email</label>
-                <input
-                  type="email"
-                  {...register("email", { required: "Email is required!" })}
-                />
-                {/* {errors.email && (
-                      <p className="text-danger" style={{ fontSize: 14 }}>
-                        {errors.email.message}
-                      </p>
-                    )} */}
               </div>
               <div className={s.inputWrapper}>
                 <label>Password</label>
@@ -75,11 +56,6 @@ const RegisterForm: FC<RegisterFormProps> = ({ setCurrentStep }) => {
                     required: "Password is required!"
                   })}
                 />
-                {/* {errors.password && (
-                      <p className="text-danger" style={{ fontSize: 14 }}>
-                        {errors.password.message}
-                      </p>
-                    )} */}
               </div>
               <div className={s.controllWrapper}>
                 <button type="submit">Register</button>

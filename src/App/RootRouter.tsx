@@ -5,10 +5,11 @@ import { Suspense, lazy } from "react";
 import { Spiner } from "../components/Spiner/Spiner";
 
 const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
-const MainPage = lazy(() => import("../pages/MainPage/MainPage"));
+// const MainPage = lazy(() => import("../pages/MainPage/MainPage"));
 const Admin = lazy(() => import("../pages/Admin/Admin"));
-const TodosPages = lazy(() => import("../pages/TodosPages/TodosPages"));
+const UsersPage = lazy(() => import("../pages/UsersPage/UsersPage"));
 const TodoPage = lazy(() => import("../pages/TodoDetailPage/TodoDetailPage"));
+const CarsPages = lazy(() => import("../pages/CarsPages/CarsPages"));
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +20,8 @@ export const router = createBrowserRouter([
         index: true,
         element: (
           <Suspense fallback={<Spiner />}>
-            <MainPage />
+            {/* <MainPage /> */}
+            <h1>Main</h1>
           </Suspense>
         )
       },
@@ -32,10 +34,19 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: RoutersPaths.TODO,
+        path: RoutersPaths.USERS,
         element: (
           <Suspense fallback={<Spiner />}>
-            <TodosPages />
+            <UsersPage />
+          </Suspense>
+        ),
+        children: []
+      },
+      {
+        path: RoutersPaths.CARS,
+        element: (
+          <Suspense fallback={<Spiner />}>
+            <CarsPages />
           </Suspense>
         ),
         children: []
@@ -47,15 +58,15 @@ export const router = createBrowserRouter([
             <TodoPage />
           </Suspense>
         )
-      },
-      {
-        path: RoutersPaths.AUTH,
-        element: (
-          <Suspense fallback={<Spiner />}>
-            <AuthPage />
-          </Suspense>
-        )
       }
     ]
+  },
+  {
+    path: RoutersPaths.AUTH,
+    element: (
+      <Suspense fallback={<Spiner />}>
+        <AuthPage />
+      </Suspense>
+    )
   }
 ]);

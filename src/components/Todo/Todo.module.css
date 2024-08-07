@@ -1,0 +1,26 @@
+.todoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.todoText {
+  flex-grow: 1;
+}
+
+.statusBox {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #000;
+  margin-left: 10px;
+}
+
+.completed {
+  background-color: green;
+}
+
+.notCompleted {
+  background-color: red;
+}

@@ -1,68 +1,34 @@
-import { useEffect, useState } from "react";
-
+import { FC } from "react";
 import s from "./UsersList.module.css";
-import {
-  Post,
-  PostsResponse,
-  User,
-  UsersResponse
-} from "../../shared/types/Types";
-import { getAllUsers } from "../../hooks/getUsers";
 import { UserPosts } from "..";
 import { UserComponent } from "../UserComponent/UserComponent";
-import { Pagination } from "../Pagination/Pagination";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { getAllUsersSelector } from "../../store/Selectors/usersSelector";
+import { getUserPosts } from "../../store/Slices/UsersSlice";
 
-export const UsersList = () => {
-  const [users, setUsers] = useState<User[] | []>([]);
-  const [userPosts, setUserPosts] = useState<Post[] | null>(null);
-  const [skipPage, setSkipPage] = useState<number>(0);
-  const [totalItems, setTotalItems] = useState<number>(0);
+export const UsersList: FC = () => {
+  const users = useAppSelector(getAllUsersSelector);
 
-  const itemsPerPage = 10;
+  const { userPosts } = useAppSelector((state) => state.users);
 
-  const limit = 10;
+  const dispatch = useAppDispatch();
 
-  const fetchUsers = async () => {
-    const { users, total } = await getAllUsers<UsersResponse>(
-      `/users?limit=${limit}&skip=${skipPage}`
-    );
-    setUsers([...users]);
-    setTotalItems(total);
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, [skipPage]);
-
-  const onPageChange = (pageNumber: number) => {
-    setSkipPage((pageNumber - 1) * itemsPerPage);
-  };
-
-  const getUserPosts = async (id: number) => {
-    const { posts } = await getAllUsers<PostsResponse>(`/users/${id}/posts`);
-    setUserPosts([...posts]);
+  const getPosts = async (id: number) => {
+    dispatch(getUserPosts(id));
   };
 
   if (!users) {
-    return <div>Loading...</div>;
+    return <div>Loading......</div>;
   }
 
   return (
     <section className={s.container}>
       <ul className={s.wrapper}>
         {users.map((user) => (
-          <UserComponent
-            key={user.id}
-            user={user}
-            getUserPosts={getUserPosts}
-          />
+          <UserComponent key={user.id} user={user} getUserPosts={getPosts} />
         ))}
       </ul>
-      <Pagination
-        totalItems={totalItems}
-        itemsPerPage={itemsPerPage}
-        onPageChange={onPageChange}
-      />
+
       {userPosts && <UserPosts userPosts={userPosts} />}
     </section>
   );

@@ -1,34 +1,36 @@
 import { FC } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { ToastContainer, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 import s from "./LoginForm.module.css";
 import { AuthSteps } from "../../shared/types/enums";
+import { useAppDispatch } from "../../store/store";
+import { loginUser } from "../../store/Slices/AuthSlice";
 
 type LoginFormProps = {
   setCurrentStep: React.Dispatch<React.SetStateAction<AuthSteps>>;
 };
 
+type FormData = {
+  username: string;
+  password: string;
+};
+
 export const LoginForm: FC<LoginFormProps> = ({
   setCurrentStep
 }): JSX.Element => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm<FormData>();
 
-  const login = (data: any) => {
+  const dispatch = useAppDispatch();
+
+  const login: SubmitHandler<FormData> = (data) => {
     let formData = {
-      email: data.email,
+      username: data.username,
       password: data.password
     };
-    fetch("https://jsonplaceholder.typicode.com/users", {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
+
+    dispatch(loginUser(formData));
     reset();
   };
 
@@ -40,22 +42,15 @@ export const LoginForm: FC<LoginFormProps> = ({
             <h3 className="card-title text-center text-secondary mt-3">
               Login Form
             </h3>
-            <form
-              className={s.form}
-              autoComplete="off"
-              onSubmit={handleSubmit(login)}
-            >
+            <form className={s.form} onSubmit={handleSubmit(login)}>
               <div className={s.inputWrapper}>
-                <label className="form-label">Email</label>
+                <label className="form-label">username</label>
                 <input
-                  type="email"
-                  {...register("email", { required: "Email is required!" })}
+                  type="Username"
+                  {...register("username", {
+                    required: "username is required!"
+                  })}
                 />
-                {/* {errors.email && (
-                      <p className="text-danger" style={{ fontSize: 14 }}>
-                        {errors.email.message}
-                      </p>
-                    )} */}
               </div>
               <div className={s.inputWrapper}>
                 <label>Password</label>
@@ -65,11 +60,6 @@ export const LoginForm: FC<LoginFormProps> = ({
                     required: "Password is required!"
                   })}
                 />
-                {/* {errors.password && (
-                      <p className="text-danger" style={{ fontSize: 14 }}>
-                        {errors.password.message}
-                      </p>
-                    )} */}
               </div>
               <div className={s.controllWrapper}>
                 <button type="submit">Login</button>
