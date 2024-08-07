@@ -4,15 +4,15 @@ import { AuthState, TokenRefresh, User } from "../../shared/types/Types";
 import { apiUsersPath } from "../../shared/types/enums";
 
 const initialState: AuthState = {
-  access: "",
-  refresh: "",
+  access: null,
+  refresh: null,
   isLogged: false,
   is_active: true,
   is_staff: false,
   is_superuser: false,
   last_login: null,
   userField: {
-    username: ""
+    username: null
   }
 };
 

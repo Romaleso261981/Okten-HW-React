@@ -13,7 +13,7 @@ type ApiDoc = {
 const initialState: CarsState = {
   isLogged: false,
   items: [],
-  error: "",
+  error: null,
   currentPages: 1,
   carsRespons: {
     total_pages: 0,

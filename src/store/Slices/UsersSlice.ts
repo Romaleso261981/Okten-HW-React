@@ -6,7 +6,7 @@ const initialState: UsersState = {
   itemsPerPage: 5,
   isLogged: false,
   items: [],
-  error: "",
+  error: null,
   userPosts: [],
   currentPages: 1
 };
