@@ -162,9 +162,12 @@ export type CarsState = {
 };
 
 export type UsersState = {
+  currentPages: number;
+  itemsPerPage: number;
   isLogged: boolean;
-  items: CarsModel[];
+  items: User[];
   error: string;
+  userPosts: Post[];
 };
 
 export type LoginData = {

@@ -17,12 +17,6 @@ export const Header = () => {
   return (
     <header className={s.header}>
       <nav className={s.nav}>
-        <Link to={RoutersPaths.ADMIN} className={s.link}>
-          admin
-        </Link>
-        <Link to={RoutersPaths.MAIN} className={s.link}>
-          home
-        </Link>
         <Link to={RoutersPaths.USERS} className={s.link}>
           users
         </Link>

@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice, isRejected } from "@reduxjs/toolkit";
-import { UsersState } from "../../shared/types/Types";
+import { Post, UsersState } from "../../shared/types/Types";
 import { API, apiBasePath, createFullUrl } from "../../API";
 
 const initialState: UsersState = {
+  itemsPerPage: 5,
   isLogged: false,
   items: [],
-  error: ""
+  error: "",
+  userPosts: [],
+  currentPages: 1
 };
 
 export const getUsers = createAsyncThunk(
@@ -13,7 +16,22 @@ export const getUsers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await API.get(
-        createFullUrl(apiBasePath.JSONPLACEHOLDER, "/users")
+        createFullUrl(apiBasePath.JSONPLACEHOLDER, "/users?")
+      );
+      console.log("response", response);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(`Error while fetching doc: ${error}`);
+    }
+  }
+);
+
+export const getUserPosts = createAsyncThunk<Post[], number>(
+  "users/getUserPosts",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await API.get(
+        createFullUrl(apiBasePath.JSONPLACEHOLDER, `/users/${id}/posts`)
       );
       return response.data;
     } catch (error) {
@@ -31,9 +49,12 @@ const UsersSlice = createSlice({
       state.isLogged = true;
     });
     builder.addCase(getUsers.fulfilled, (state, { payload }) => {
-      console.log("payload", payload);
       state.isLogged = false;
       state.items = payload;
+    });
+    builder.addCase(getUserPosts.fulfilled, (state, { payload }) => {
+      state.isLogged = false;
+      state.userPosts = payload;
     });
 
     builder.addMatcher(isRejected(getUsers), (state, { payload }) => {
