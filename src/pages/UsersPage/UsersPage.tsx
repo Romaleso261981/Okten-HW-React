@@ -12,7 +12,7 @@ const UsersPage = () => {
 
   useEffect(() => {
     dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
 
   console.log(users);
 

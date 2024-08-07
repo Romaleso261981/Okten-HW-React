@@ -18,7 +18,6 @@ export const getUsers = createAsyncThunk(
       const response = await API.get(
         createFullUrl(apiBasePath.JSONPLACEHOLDER, "/users?")
       );
-      console.log("response", response);
       return response.data;
     } catch (error) {
       return rejectWithValue(`Error while fetching doc: ${error}`);
@@ -62,7 +61,5 @@ const UsersSlice = createSlice({
     });
   }
 });
-
-export const {} = UsersSlice.actions;
 
 export default UsersSlice.reducer;
