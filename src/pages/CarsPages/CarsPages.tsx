@@ -11,6 +11,7 @@ import { CardEditForm } from "../../components/CardEditForm/CardEditForm";
 
 export default function CarsPages() {
   const [isAddedCarsForm, setIsAddedCarsForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [cardId, setCardId] = useState<string | undefined>("");
   const [isShowEditCard, setIsShowEditCard] = useState<boolean>(false);
 
@@ -20,8 +21,6 @@ export default function CarsPages() {
     currentPages,
     carsRespons: { total_items, limit }
   } = useAppSelector((state) => state.cars);
-
-  console.log(limit);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -47,8 +46,8 @@ export default function CarsPages() {
   };
 
   useEffect(() => {
-    dispatch(getOwnCars());
-  }, [currentPages]);
+    dispatch(getOwnCars({ page: currentPage }));
+  }, [currentPage, dispatch]);
 
   if (!cars) return <div>Loading...</div>;
 
@@ -62,7 +61,11 @@ export default function CarsPages() {
       )}
       <CarsList cars={cars} toggleEditCardForm={toggleEditCardForm} />
       {isShowEditCard && (
-        <CardEditForm cardId={cardId} setIsShowEditCard={setIsShowEditCard} />
+        <CardEditForm
+          cardId={cardId}
+          setIsShowEditCard={setIsShowEditCard}
+          currentPage={currentPage}
+        />
       )}
       <Pagination
         totalItems={total_items}
