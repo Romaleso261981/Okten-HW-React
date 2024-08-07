@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 import s from "./CardEditForm.module.css";
 import { API } from "../../API";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch } from "../../store/store";
 import { getOwnCars } from "../../store/Slices/CarsSlice";
 
 type CardFormData = {
@@ -25,8 +25,6 @@ export const CardEditForm: FC<CardFormProps> = ({
 }) => {
   const [card, setCard] = useState<CardFormData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  const {} = useAppSelector((state) => state.cars);
 
   const dispatch = useAppDispatch();
 
