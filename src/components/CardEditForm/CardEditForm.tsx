@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import s from "./CardEditForm.module.css";
 import { API } from "../../API";
 import { useAppDispatch } from "../../store/store";
+
 import { getOwnCars } from "../../store/Slices/CarsSlice";
 
 type CardFormData = {
@@ -17,11 +18,13 @@ type CardFormData = {
 type CardFormProps = {
   cardId: string | undefined;
   setIsShowEditCard: (value: boolean) => void;
+  currentPage: number;
 };
 
 export const CardEditForm: FC<CardFormProps> = ({
   cardId,
-  setIsShowEditCard
+  setIsShowEditCard,
+  currentPage
 }) => {
   const [card, setCard] = useState<CardFormData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -56,6 +59,7 @@ export const CardEditForm: FC<CardFormProps> = ({
 
   const handleEditCar = async (data: CardFormData) => {
     try {
+ feature-users
       await API.post(`cars/update/${cardId}`, data);
       setIsShowEditCard(false);
       dispatch(getOwnCars());
