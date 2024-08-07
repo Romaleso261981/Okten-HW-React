@@ -29,6 +29,7 @@ export const getOwnCars = createAsyncThunk<CarsResponse>(
   async (_, { rejectWithValue, getState }) => {
     try {
       const { cars } = getState() as RootState;
+      console.log("cars.currentpage", cars.currentPages);
       const response = await API.get<CarsResponse>(
         createFullUrl(apiBasePath.RAILWAY, apiCarsPath.CARS),
         {
