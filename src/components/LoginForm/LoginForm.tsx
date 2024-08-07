@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import s from "./LoginForm.module.css";
 import { AuthSteps } from "../../shared/types/enums";
 import { useAppDispatch } from "../../store/store";
-import { loginUser } from "../../store/Slices/UserSlice";
+import { loginUser } from "../../store/Slices/AuthSlice";
 
 type LoginFormProps = {
   setCurrentStep: React.Dispatch<React.SetStateAction<AuthSteps>>;

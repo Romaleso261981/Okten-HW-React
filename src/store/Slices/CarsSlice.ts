@@ -1,17 +1,20 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isRejected } from "@reduxjs/toolkit";
 import { API } from "../../API";
 import { apiCarsPath } from "../../shared/types/enums";
 import { CarsResponse } from "../../models/CarsResponseModel";
 import { CarsState } from "../../shared/types/Types";
 import { CarsModel } from "../../models/CarsModel";
+import { RootState } from "../store";
 
-type RequestGetOwnCar = {
-  page: number;
+type ApiDoc = {
+  id: string;
 };
 
 const initialState: CarsState = {
   isLogged: false,
   items: [],
+  error: "",
+  currentPages: 1,
   carsRespons: {
     total_pages: 0,
     total_items: 0,
@@ -21,16 +24,32 @@ const initialState: CarsState = {
   }
 };
 
-export const getOwnCars = createAsyncThunk<CarsResponse, RequestGetOwnCar>(
+export const getOwnCars = createAsyncThunk<CarsResponse>(
   "cars/getOwnCars",
-  async (params: RequestGetOwnCar, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
+      const { cars } = getState() as RootState;
       const response = await API.get<CarsResponse>(apiCarsPath.CARS, {
-        params
+        params: {
+          page: cars.currentPages,
+          limit: cars.carsRespons.limit
+        }
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue("Error while fetching cars");
+      return rejectWithValue(`Error while fetching cars${error}`);
+    }
+  }
+);
+
+export const getDoc = createAsyncThunk<ApiDoc>(
+  "cars/getDoc",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await API.get<ApiDoc>(apiCarsPath.DOCS);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(`Error while fetching doc: ${error}`);
     }
   }
 );
@@ -59,23 +78,27 @@ export const deleteCar = createAsyncThunk<CarsResponse, string | undefined>(
   }
 );
 
-export const edditCar = createAsyncThunk<
-  CarsResponse,
-  { id: string } | undefined
->("cars/deleteCar", async (data, { rejectWithValue }) => {
-  if (!data) return rejectWithValue("Error while fetching cars");
-  try {
-    const response = await API.put(`cars/edit/${data.id}`, data);
-    return response.data;
-  } catch (error) {
-    return rejectWithValue("Error while fetching cars");
+export const edditCar = createAsyncThunk<CarsResponse, { id: string }>(
+  "cars/deleteCar",
+  async (data, { rejectWithValue }) => {
+    if (!data) return rejectWithValue("Error while fetching cars");
+    try {
+      const response = await API.put(`cars/edit/${data.id}`, data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue("Error while fetching cars");
+    }
   }
-});
+);
 
 const CarsSlice = createSlice({
   name: "cars",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentPage: (state, { payload }) => {
+      state.currentPages = payload;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(getOwnCars.pending, (state) => {
       state.isLogged = true;
@@ -84,19 +107,24 @@ const CarsSlice = createSlice({
       state.carsRespons.total_items = payload.carsRespons.total_items;
       state.isLogged = false;
       state.items = payload.items;
+      state.carsRespons.limit = 6;
     });
-    builder.addCase(getOwnCars.rejected, () => {});
-    builder.addCase(addedCar.pending, () => {});
     builder.addCase(addedCar.fulfilled, (state, { payload }) => {
       state.items = payload.items;
     });
-    builder.addCase(addedCar.rejected, () => {});
-    builder.addCase(deleteCar.pending, () => {});
     builder.addCase(deleteCar.fulfilled, (state, { payload }) => {
       state.items = payload.items;
     });
     builder.addCase(deleteCar.rejected, () => {});
+    builder.addMatcher(
+      isRejected(edditCar, addedCar, deleteCar, getOwnCars),
+      (state, { payload }) => {
+        state.error = payload as string;
+      }
+    );
   }
 });
+
+export const { setCurrentPage } = CarsSlice.actions;
 
 export default CarsSlice.reducer;

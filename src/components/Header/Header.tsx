@@ -3,7 +3,7 @@ import s from "./Header.module.css";
 import { RoutersPaths } from "../../shared/types/enums";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { isLoggedUser } from "../../store/Selectors/userSelectors";
-import { logOut } from "../../store/Slices/UserSlice";
+import { logOut } from "../../store/Slices/AuthSlice";
 
 export const Header = () => {
   const isLogged = useAppSelector(isLoggedUser);
@@ -17,14 +17,8 @@ export const Header = () => {
   return (
     <header className={s.header}>
       <nav className={s.nav}>
-        <Link to={RoutersPaths.ADMIN} className={s.link}>
-          admin
-        </Link>
-        <Link to={RoutersPaths.MAIN} className={s.link}>
-          home
-        </Link>
-        <Link to={RoutersPaths.TODO} className={s.link}>
-          Todo
+        <Link to={RoutersPaths.USERS} className={s.link}>
+          users
         </Link>
         {!isLogged && (
           <Link to={RoutersPaths.AUTH} className={s.link}>

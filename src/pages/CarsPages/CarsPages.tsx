@@ -5,7 +5,7 @@ import s from "./CarsPages.module.css";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { isLoggedUser } from "../../store/Selectors/userSelectors";
 import { useNavigate } from "react-router-dom";
-import { getOwnCars } from "../../store/Slices/CarsSlice";
+import { getOwnCars, setCurrentPage } from "../../store/Slices/CarsSlice";
 import { Pagination } from "../../components/Pagination/Pagination";
 import { CardEditForm } from "../../components/CardEditForm/CardEditForm";
 
@@ -17,8 +17,8 @@ export default function CarsPages() {
 
   const isLogged = useAppSelector(isLoggedUser);
   const cars = useAppSelector((state) => state.cars.items);
-
   const {
+    currentPages,
     carsRespons: { total_items, limit }
   } = useAppSelector((state) => state.cars);
 
@@ -41,8 +41,8 @@ export default function CarsPages() {
   };
 
   const onPageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-    dispatch(getOwnCars({ page: pageNumber }));
+    dispatch(setCurrentPage(pageNumber));
+    dispatch(getOwnCars());
   };
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function CarsPages() {
       )}
       <Pagination
         totalItems={total_items}
-        itemsPerPage={limit}
+        itemsPerPage={6}
         onPageChange={onPageChange}
       />
     </div>

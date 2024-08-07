@@ -1,9 +1,9 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API } from "../../API";
-import { TokenRefresh, UserState } from "../../shared/types/Types";
+import { AuthState, TokenRefresh } from "../../shared/types/Types";
 import { apiUsersPath } from "../../shared/types/enums";
 
-const initialState: UserState = {
+const initialState: AuthState = {
   access: "",
   refresh: "",
   isLogged: false,
@@ -17,7 +17,7 @@ const initialState: UserState = {
 };
 
 export const registerUser = createAsyncThunk<TokenRefresh, object>(
-  "user/registerUser",
+  "auth/registerUser",
   async (data) => {
     const response = await API.post<TokenRefresh>(apiUsersPath.REGISTER, data);
     return response.data;
@@ -25,7 +25,7 @@ export const registerUser = createAsyncThunk<TokenRefresh, object>(
 );
 
 export const loginUser = createAsyncThunk<TokenRefresh, object>(
-  "user/loginUser",
+  "auth/loginUser",
   async (data) => {
     const response = await API.post<TokenRefresh>(apiUsersPath.LOGIN, data);
     return response.data;
@@ -33,7 +33,7 @@ export const loginUser = createAsyncThunk<TokenRefresh, object>(
 );
 
 export const aboutUser = createAsyncThunk<string, void>(
-  "user/aboutUser",
+  "auth/aboutUser",
   async () => {
     try {
       const response = await API.get(apiUsersPath.ABOUTUSER);
@@ -45,7 +45,7 @@ export const aboutUser = createAsyncThunk<string, void>(
 );
 
 export const currentUser = createAsyncThunk<string, void>(
-  "user/currentUser",
+  "auth/currentUser",
   async () => {
     try {
       const response = await API.post(apiUsersPath.CURRENTUSER);
@@ -56,8 +56,8 @@ export const currentUser = createAsyncThunk<string, void>(
   }
 );
 
-const UserSlice = createSlice({
-  name: "user",
+const AuthSlice = createSlice({
+  name: "auth",
   initialState,
   reducers: {
     logOut(state) {
@@ -90,6 +90,6 @@ const UserSlice = createSlice({
   }
 });
 
-export const { logOut } = UserSlice.actions;
+export const { logOut } = AuthSlice.actions;
 
-export default UserSlice.reducer;
+export default AuthSlice.reducer;

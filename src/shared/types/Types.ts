@@ -124,7 +124,7 @@ export type FormData = {
   password: string;
 };
 
-export type UserState = {
+export type AuthState = {
   access: string;
   refresh: string;
   isLogged: boolean;
@@ -150,6 +150,8 @@ export type Car = {
 export type CarsState = {
   isLogged: boolean;
   items: CarsModel[];
+  error: string;
+  currentPages: number;
   carsRespons: {
     total_pages: number;
     total_items: number;
@@ -157,6 +159,15 @@ export type CarsState = {
     page: number;
     data: CarsModel[];
   };
+};
+
+export type UsersState = {
+  currentPages: number;
+  itemsPerPage: number;
+  isLogged: boolean;
+  items: User[];
+  error: string;
+  userPosts: Post[];
 };
 
 export type LoginData = {

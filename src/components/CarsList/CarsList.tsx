@@ -20,7 +20,7 @@ export const CarsList: FC<CarsListProps> = ({ cars, toggleEditCardForm }) => {
     <ul className={s.carsList}>
       {cars.map((car) => {
         return (
-          <li key={car.id} className={s.carItem}>
+          <li key={car._id} className={s.carItem}>
             <span>
               {car.brand} - {car.year} - {car.price}
             </span>
