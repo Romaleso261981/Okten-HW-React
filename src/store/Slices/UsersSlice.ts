@@ -42,7 +42,11 @@ export const getUserPosts = createAsyncThunk<Post[], number>(
 const UsersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentPage: (state, { payload }) => {
+      state.currentPages = payload;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(getUsers.pending, (state) => {
       state.isLogged = true;
@@ -61,5 +65,7 @@ const UsersSlice = createSlice({
     });
   }
 });
+
+export const { setCurrentPage } = UsersSlice.actions;
 
 export default UsersSlice.reducer;

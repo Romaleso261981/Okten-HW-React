@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { API } from "../../API";
-import { AuthState, TokenRefresh } from "../../shared/types/Types";
+import { API, apiBasePath, createFullUrl } from "../../API";
+import { AuthState, TokenRefresh, User } from "../../shared/types/Types";
 import { apiUsersPath } from "../../shared/types/enums";
 
 const initialState: AuthState = {
@@ -16,42 +16,60 @@ const initialState: AuthState = {
   }
 };
 
-export const registerUser = createAsyncThunk<TokenRefresh, object>(
+export const registerUser = createAsyncThunk<TokenRefresh, User>(
   "auth/registerUser",
-  async (data) => {
-    const response = await API.post<TokenRefresh>(apiUsersPath.REGISTER, data);
-    return response.data;
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await API.post<TokenRefresh>(
+        createFullUrl(apiBasePath.RAILWAY, apiUsersPath.REGISTER),
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(`Error while fetching user${error}`);
+    }
   }
 );
 
-export const loginUser = createAsyncThunk<TokenRefresh, object>(
+export const loginUser = createAsyncThunk<TokenRefresh, User>(
   "auth/loginUser",
-  async (data) => {
-    const response = await API.post<TokenRefresh>(apiUsersPath.LOGIN, data);
-    return response.data;
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await API.post<TokenRefresh>(
+        createFullUrl(apiBasePath.RAILWAY, apiUsersPath.LOGIN),
+        data
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(`Error while fetching user${error}`);
+    }
   }
 );
 
 export const aboutUser = createAsyncThunk<string, void>(
   "auth/aboutUser",
-  async () => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await API.get(apiUsersPath.ABOUTUSER);
+      const response = await API.get(
+        createFullUrl(apiBasePath.RAILWAY, apiUsersPath.ABOUTUSER)
+      );
       return response.data;
     } catch (error) {
-      throw new Error("Error while fetching user");
+      rejectWithValue("Error while fetching user");
     }
   }
 );
 
 export const currentUser = createAsyncThunk<string, void>(
   "auth/currentUser",
-  async () => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await API.post(apiUsersPath.CURRENTUSER);
+      const response = await API.post(
+        createFullUrl(apiBasePath.RAILWAY, apiUsersPath.CURRENTUSER)
+      );
       return response.data;
     } catch (error) {
-      throw new Error("Error while fetching user");
+      rejectWithValue("Error while fetching user");
     }
   }
 );
