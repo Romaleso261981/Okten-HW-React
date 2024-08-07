@@ -141,15 +141,15 @@ export type FormData = {
 };
 
 export type AuthState = {
-  access: string;
-  refresh: string;
+  access: string | null;
+  refresh: string | null;
   isLogged: boolean;
   is_active: boolean;
   is_staff: boolean;
   is_superuser: boolean;
   last_login: string | null;
   userField: {
-    username: string;
+    username: string | null;
   };
 };
 
@@ -166,7 +166,7 @@ export type Car = {
 export type CarsState = {
   isLogged: boolean;
   items: CarsModel[];
-  error: string;
+  error: string | null;
   currentPages: number;
   carsRespons: {
     total_pages: number;
@@ -182,7 +182,7 @@ export type UsersState = {
   itemsPerPage: number;
   isLogged: boolean;
   items: UserFromJsonplaceholder[];
-  error: string;
+  error: string | null;
   userPosts: Post[];
 };
 

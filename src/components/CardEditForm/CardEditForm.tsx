@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import s from "./CardEditForm.module.css";
-import { API } from "../../API";
+import { API, apiBasePath } from "../../API";
 import { useAppDispatch } from "../../store/store";
 
 import { getOwnCars } from "../../store/Slices/CarsSlice";
@@ -18,13 +18,11 @@ type CardFormData = {
 type CardFormProps = {
   cardId: string | undefined;
   setIsShowEditCard: (value: boolean) => void;
-  currentPage: number;
 };
 
 export const CardEditForm: FC<CardFormProps> = ({
   cardId,
-  setIsShowEditCard,
-  currentPage
+  setIsShowEditCard
 }) => {
   const [card, setCard] = useState<CardFormData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +39,9 @@ export const CardEditForm: FC<CardFormProps> = ({
   const getCardById = async () => {
     try {
       setIsLoading(true);
-      const response = await API.get(`cars/detail/${cardId}`);
+      const response = await API.get(
+        `${apiBasePath.RAILWAY}/cars/detail/${cardId}`
+      );
       setCard(response.data);
       reset(response.data);
     } catch (error) {
@@ -59,11 +59,9 @@ export const CardEditForm: FC<CardFormProps> = ({
 
   const handleEditCar = async (data: CardFormData) => {
     try {
-      console.log("data request", data);
-      const response = await API.post(`cars/update/${cardId}`, data);
-      console.log("edit response", response);
+      await API.post(`${apiBasePath.RAILWAY}/cars/update/${cardId}`, data);
       setIsShowEditCard(false);
-      dispatch(getOwnCars({ page: currentPage }));
+      dispatch(getOwnCars(1));
       reset();
     } catch (error) {
       console.log("Error while editing car");
