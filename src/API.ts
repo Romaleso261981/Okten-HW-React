@@ -17,6 +17,7 @@ export const createFullUrl = (baseUrl: string, url: string) => {
   return `${baseUrl}${url}`;
 };
 
+
 const API = axios.create({
   baseURL: `${baseUrl}`
 });
