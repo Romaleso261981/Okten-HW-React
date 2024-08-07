@@ -86,7 +86,7 @@ export const deleteCar = createAsyncThunk<CarsResponse, string>(
 );
 
 export const edditCar = createAsyncThunk<CarsResponse, { id: string }>(
-  "cars/deleteCar",
+  "cars/edditCar",
   async (data, { rejectWithValue }) => {
     try {
       const response = await API.put(`cars/edit/${data.id}`, data);
