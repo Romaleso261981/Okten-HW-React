@@ -43,12 +43,11 @@ export default function CarsPages() {
 
   const onPageChange = (pageNumber: number) => {
     dispatch(setCurrentPage(pageNumber));
-    dispatch(getOwnCars());
   };
 
   useEffect(() => {
     dispatch(getOwnCars());
-  }, [currentPages]);
+  }, [currentPages, dispatch]);
 
   if (!cars) return <div>Loading...</div>;
 

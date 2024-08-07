@@ -3,7 +3,6 @@ import axios from "axios";
 // import { authService } from "./shared/services/api.service";
 
 // const baseUrl = "http://owu.linkpc.net/carsAPI/v2";
-const baseUrl = "http://localhost:8000";
 // const baseUrl = "https://dummyjson.up.railway.app";
 
 export enum apiBasePath {
@@ -17,9 +16,7 @@ export const createFullUrl = (baseUrl: string, url: string) => {
   return `${baseUrl}${url}`;
 };
 
-const API = axios.create({
-  baseURL: `${baseUrl}`
-});
+const API = axios.create({});
 
 API.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem("accessToken");

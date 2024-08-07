@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, isRejected } from "@reduxjs/toolkit";
-import { API } from "../../API";
+import { API, apiBasePath, createFullUrl } from "../../API";
 import { apiCarsPath } from "../../shared/types/enums";
 import { CarsResponse } from "../../models/CarsResponseModel";
 import { CarsState } from "../../shared/types/Types";
@@ -13,7 +13,7 @@ type ApiDoc = {
 const initialState: CarsState = {
   isLogged: false,
   items: [],
-  error: "",
+  error: null,
   currentPages: 1,
   carsRespons: {
     total_pages: 0,
@@ -29,12 +29,16 @@ export const getOwnCars = createAsyncThunk<CarsResponse>(
   async (_, { rejectWithValue, getState }) => {
     try {
       const { cars } = getState() as RootState;
-      const response = await API.get<CarsResponse>(apiCarsPath.CARS, {
-        params: {
-          page: cars.currentPages,
-          limit: cars.carsRespons.limit
+      console.log("cars.currentpage", cars.currentPages);
+      const response = await API.get<CarsResponse>(
+        createFullUrl(apiBasePath.RAILWAY, apiCarsPath.CARS),
+        {
+          params: {
+            page: cars.currentPages,
+            limit: cars.carsRespons.limit
+          }
         }
-      });
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(`Error while fetching cars${error}`);
@@ -58,35 +62,37 @@ export const addedCar = createAsyncThunk<CarsResponse, Omit<CarsModel, "id">>(
   "cars/addedCar",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await API.post(apiCarsPath.CARS, data);
+      const response = await API.post(
+        createFullUrl(apiBasePath.RAILWAY, apiCarsPath.CARS),
+        data
+      );
       return response.data;
     } catch (error) {
-      return rejectWithValue("Error while fetching cars");
+      return rejectWithValue(`Error while fetching user${error}`);
     }
   }
 );
 
-export const deleteCar = createAsyncThunk<CarsResponse, string | undefined>(
+export const deleteCar = createAsyncThunk<CarsResponse, string>(
   "cars/deleteCar",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await API.delete(`cars/${id}`);
+      const response = await API.delete(`${apiBasePath.RAILWAY}/cars/${id}`);
       return response.data;
     } catch (error) {
-      return rejectWithValue("Error while fetching cars");
+      return rejectWithValue(`Error while fetching user${error}`);
     }
   }
 );
 
 export const edditCar = createAsyncThunk<CarsResponse, { id: string }>(
-  "cars/deleteCar",
+  "cars/edditCar",
   async (data, { rejectWithValue }) => {
-    if (!data) return rejectWithValue("Error while fetching cars");
     try {
       const response = await API.put(`cars/edit/${data.id}`, data);
       return response.data;
     } catch (error) {
-      return rejectWithValue("Error while fetching cars");
+      return rejectWithValue(`Error while fetching user${error}`);
     }
   }
 );
