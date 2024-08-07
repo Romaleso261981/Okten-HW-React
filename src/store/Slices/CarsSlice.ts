@@ -67,7 +67,7 @@ export const addedCar = createAsyncThunk<CarsResponse, Omit<CarsModel, "id">>(
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue("Error while fetching cars");
+      return rejectWithValue(`Error while fetching user${error}`);
     }
   }
 );
@@ -79,7 +79,7 @@ export const deleteCar = createAsyncThunk<CarsResponse, string>(
       const response = await API.delete(`${apiBasePath.RAILWAY}/cars/${id}`);
       return response.data;
     } catch (error) {
-      return rejectWithValue("Error while fetching cars");
+      return rejectWithValue(`Error while fetching user${error}`);
     }
   }
 );
@@ -91,7 +91,7 @@ export const edditCar = createAsyncThunk<CarsResponse, { id: string }>(
       const response = await API.put(`cars/edit/${data.id}`, data);
       return response.data;
     } catch (error) {
-      return rejectWithValue("Error while fetching cars");
+      return rejectWithValue(`Error while fetching user${error}`);
     }
   }
 );

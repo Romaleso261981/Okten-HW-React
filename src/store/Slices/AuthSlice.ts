@@ -55,7 +55,7 @@ export const aboutUser = createAsyncThunk<string, void>(
       );
       return response.data;
     } catch (error) {
-      rejectWithValue("Error while fetching user");
+      rejectWithValue(`Error while fetching user${error}`);
     }
   }
 );
@@ -69,7 +69,7 @@ export const currentUser = createAsyncThunk<string, void>(
       );
       return response.data;
     } catch (error) {
-      rejectWithValue("Error while fetching user");
+      rejectWithValue(`Error while fetching user${error}`);
     }
   }
 );
